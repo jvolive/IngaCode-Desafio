@@ -1,0 +1,6 @@
+@IngaCode.Api_HostAddress = http://localhost:5249
+
+GET {{IngaCode.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,50 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "IngaCode.Application/1.0.0": {
+        "dependencies": {
+          "IngaCode.Domain": "1.0.0",
+          "IngaCode.Infrastructure": "1.0.0"
+        },
+        "runtime": {
+          "IngaCode.Application.dll": {}
+        }
+      },
+      "IngaCode.Domain/1.0.0": {
+        "runtime": {
+          "IngaCode.Domain.dll": {}
+        }
+      },
+      "IngaCode.Infrastructure/1.0.0": {
+        "dependencies": {
+          "IngaCode.Domain": "1.0.0"
+        },
+        "runtime": {
+          "IngaCode.Infrastructure.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "IngaCode.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "IngaCode.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "IngaCode.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

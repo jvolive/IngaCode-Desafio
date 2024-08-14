@@ -1,0 +1,12 @@
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\bin\Debug\net8.0\IngaCode.Domain.deps.json
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\bin\Debug\net8.0\IngaCode.Domain.dll
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\bin\Debug\net8.0\IngaCode.Domain.pdb
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\obj\Debug\net8.0\IngaCode.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\obj\Debug\net8.0\IngaCode.Domain.AssemblyInfoInputs.cache
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\obj\Debug\net8.0\IngaCode.Domain.AssemblyInfo.cs
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\obj\Debug\net8.0\IngaCode.Domain.csproj.CoreCompileInputs.cache
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\obj\Debug\net8.0\IngaCode.Domain.sourcelink.json
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\obj\Debug\net8.0\IngaCode.Domain.dll
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\obj\Debug\net8.0\refint\IngaCode.Domain.dll
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\obj\Debug\net8.0\IngaCode.Domain.pdb
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Domain\obj\Debug\net8.0\ref\IngaCode.Domain.dll

@@ -6,7 +6,7 @@ namespace IngaCode.Domain.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string TimeZoneId { get; set; }
-        public Guid TaskId { get; set; }
+        public Guid? TaskId { get; set; }
         public Guid? CollaboratorId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

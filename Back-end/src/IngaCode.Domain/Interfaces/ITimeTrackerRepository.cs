@@ -1,7 +1,4 @@
 using IngaCode.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace IngaCode.Domain.Interfaces
 {

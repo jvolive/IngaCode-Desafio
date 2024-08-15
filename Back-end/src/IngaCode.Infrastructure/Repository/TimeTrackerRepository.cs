@@ -1,10 +1,7 @@
-using Dapper;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
+using Dapper;
 
 namespace IngaCode.Infrastructure.Repository
 {

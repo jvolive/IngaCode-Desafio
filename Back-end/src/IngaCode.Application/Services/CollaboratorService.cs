@@ -1,9 +1,10 @@
+using IngaCode.Application.Interfaces;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
 
 namespace IngaCode.Application.Services
 {
-    public class CollaboratorService
+    public class CollaboratorService : ICollaboratorService
     {
         private readonly ICollaboratorRepository _collaboratorRepository;
 

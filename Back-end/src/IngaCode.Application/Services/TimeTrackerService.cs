@@ -1,9 +1,10 @@
+using IngaCode.Application.Interfaces;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
 
 namespace IngaCode.Application.Services
 {
-    public class TimeTrackerService
+    public class TimeTrackerService : ITimeTrackerService
     {
         private readonly ITimeTrackerRepository _timeTrackerRepository;
         private readonly ITaskEntityRepository _taskRepository;
@@ -21,7 +22,9 @@ namespace IngaCode.Application.Services
                 throw new ArgumentException("O tempo de início deve ser menor ou igual ao tempo de término.");
             }
 
-            var overlapping = await _timeTrackerRepository.GetOverlappingTimeTrackersAsync(timeTracker.TaskId, timeTracker.StartDate, timeTracker.EndDate);
+            var taskId = timeTracker.TaskId ?? throw new ArgumentException("O TaskId não pode ser nulo.");
+            var overlapping = await _timeTrackerRepository.GetOverlappingTimeTrackersAsync(taskId, timeTracker.StartDate, timeTracker.EndDate);
+
             if (overlapping.Any())
             {
                 throw new ArgumentException("O intervalo de tempo colide com um intervalo existente.");
@@ -36,7 +39,15 @@ namespace IngaCode.Application.Services
             {
                 throw new ArgumentException("O tempo de início deve ser menor ou igual ao tempo de término.");
             }
-            var overlapping = await _timeTrackerRepository.GetOverlappingTimeTrackersAsync(timeTracker.TaskId, timeTracker.StartDate, timeTracker.EndDate, timeTracker.Id);
+
+            var taskId = timeTracker.TaskId;
+
+            if (!taskId.HasValue || taskId.Value == Guid.Empty)
+            {
+                throw new ArgumentException("O TaskId deve ser um Guid válido.");
+            }
+
+            var overlapping = await _timeTrackerRepository.GetOverlappingTimeTrackersAsync(taskId.Value, timeTracker.StartDate, timeTracker.EndDate, timeTracker.Id);
             if (overlapping.Any())
             {
                 throw new ArgumentException("O intervalo de tempo colide com um intervalo existente.");
@@ -45,10 +56,12 @@ namespace IngaCode.Application.Services
             await _timeTrackerRepository.UpdateAsync(timeTracker);
         }
 
+
         public async Task DeleteTimeTrackerAsync(Guid id)
         {
             await _timeTrackerRepository.DeleteAsync(id);
         }
+
         public async Task<IEnumerable<TimeTracker>> GetAllTimeTrackersAsync()
         {
             return await _timeTrackerRepository.GetAllAsync();
@@ -58,6 +71,7 @@ namespace IngaCode.Application.Services
         {
             return await _timeTrackerRepository.GetByIdAsync(id);
         }
+
         public async Task<IEnumerable<TimeTracker>> GetTimeTrackersByTaskIdAsync(Guid taskId)
         {
             return await _timeTrackerRepository.GetByTaskIdAsync(taskId);

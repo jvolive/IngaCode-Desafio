@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using IngaCode.Application.Interfaces;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
 
 namespace IngaCode.Application.Services
 {
-    public class ProjectService
+    public class ProjectService : IProjectService
     {
         private readonly IProjectRepository _projectRepository;
 

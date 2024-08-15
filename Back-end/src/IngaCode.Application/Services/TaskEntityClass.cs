@@ -1,9 +1,10 @@
+using IngaCode.Application.Interfaces;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
 
 namespace IngaCode.Application.Services
 {
-    public class TaskEntityService
+    public class TaskEntityService : ITaskEntityService
     {
         private readonly ITaskEntityRepository _taskRepository;
         private readonly ITimeTrackerRepository _timeTrackerRepository;

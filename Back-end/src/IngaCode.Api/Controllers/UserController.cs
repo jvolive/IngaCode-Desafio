@@ -1,5 +1,4 @@
-using IngaCode.Domain.Entities;
-using IngaCode.Domain.Interfaces;
+using IngaCode.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IngaCode.Api.Controllers
@@ -8,51 +7,49 @@ namespace IngaCode.Api.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IJwtTokenService _jwtTokenService;
+        private readonly IUserService _userService;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IJwtTokenService jwtTokenService, IUserService userService)
         {
-            _userRepository = userRepository;
+            _jwtTokenService = jwtTokenService;
+            _userService = userService;
         }
-        [HttpGet("{username}")]
-        public async Task<IActionResult> GetByUsername(string username)
+
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
         {
-            var user = await _userRepository.GetByUsernameAsync(username);
+            var user = await _userService.AuthenticateUserAsync(request.Username, request.Password);
+
             if (user == null)
-                return NotFound();
-            return Ok(user);
+                return Unauthorized(new { message = "Username or password is incorrect" });
+
+            var token = _jwtTokenService.GenerateToken(user);
+
+            return Ok(new { token });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(User user)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            await _userRepository.AddAsync(user);
-            return CreatedAtAction(nameof(GetByUsername), new { username = user.UserName }, user);
+            var result = await _userService.RegisterUserAsync(request.Username, request.Password);
+
+            if (result == "User registered successfully")
+                return Ok(new { message = result });
+
+            return BadRequest(new { message = result });
         }
+    }
 
-        [HttpPut("{username}")]
-        public async Task<IActionResult> Update(string username, User user)
-        {
-            var existingUser = await _userRepository.GetByUsernameAsync(username);
-            if (existingUser == null)
-                return NotFound();
+    public class AuthenticateRequest
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
 
-            if (username != user.UserName)
-                return BadRequest("Username does not match.");
-
-            await _userRepository.UpdateAsync(user);
-            return NoContent();
-        }
-
-        [HttpDelete("{username}")]
-        public async Task<IActionResult> Delete(string username)
-        {
-            var existingUser = await _userRepository.GetByUsernameAsync(username);
-            if (existingUser == null)
-                return NotFound();
-
-            await _userRepository.DeleteAsync(existingUser.Id);
-            return NoContent();
-        }
+    public class RegisterRequest
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }

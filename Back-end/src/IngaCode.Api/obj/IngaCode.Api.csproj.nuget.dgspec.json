@@ -120,8 +120,8 @@
               "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
                 "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj"
               },
-              "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
-                "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj"
+              "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
+                "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj"
               }
             }
           }
@@ -236,14 +236,14 @@
         }
       }
     },
-    "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
+    "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
         "projectName": "IngaCode.Infrastructure",
-        "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
+        "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\joaoo\\.nuget\\packages\\",
-        "outputPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\obj\\",
+        "outputPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\joaoo\\AppData\\Roaming\\NuGet\\NuGet.Config"

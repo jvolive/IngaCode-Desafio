@@ -1,5 +1,6 @@
-using IngaCode.Application.Configuration;
 using IngaCode.Application.Configuration.Swagger;
+using IngaCode.Application.Interfaces;
+using IngaCode.Application.Services;
 using IngaCode.Domain.Interfaces;
 using IngaCode.Infrastructure.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -54,23 +55,29 @@ builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x =>
+})
+.AddJwtBearer(x =>
 {
     x.RequireHttpsMetadata = false;
     x.SaveToken = true;
     x.TokenValidationParameters = new TokenValidationParameters
     {
+        ValidateIssuer = true,
+        ValidateAudience = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Key.Secret)),
-        ValidateIssuer = false,
-        ValidateAudience = false
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
+
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();
 builder.Services.AddScoped<ITaskEntityRepository, TaskEntityRepository>();
 builder.Services.AddScoped<ITimeTrackerRepository, TimeTrackerRepository>();
+
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 var app = builder.Build();
 

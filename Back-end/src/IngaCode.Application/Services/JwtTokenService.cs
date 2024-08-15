@@ -1,51 +1,52 @@
-using IngaCode.Application.Configuration;
-using IngaCode.Domain.Entities;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using IngaCode.Application.Interfaces;
+using IngaCode.Domain.Entities;
+using IngaCode.Domain.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IngaCode.Application.Services
 {
-    public static class JwtClaimTypes
+    public class JwtTokenService : IJwtTokenService
     {
-        public const string UserId = "userId";
-        public const string UserName = "userName";
-    }
+        private readonly IConfiguration _configuration;
+        private readonly IUserRepository _userRepository;
 
-    public class JwtTokenService
-    {
-        public static object GenerateToken(User user)
+        public JwtTokenService(IConfiguration configuration, IUserRepository userRepository)
         {
-            try
+            _configuration = configuration;
+            _userRepository = userRepository;
+        }
+
+        public string GenerateToken(User user)
+        {
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var issuer = _configuration["Jwt:Issuer"];
+            var audience = _configuration["Jwt:Audience"];
+
+            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
             {
-                var key = Encoding.ASCII.GetBytes(Key.Secret);
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
 
-                var tokenConfig = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim(JwtClaimTypes.UserId, user.Id.ToString()),
-                        new Claim(JwtClaimTypes.UserName, user.UserName)
-                    }),
-                    Expires = DateTime.UtcNow.AddHours(3),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var token = tokenHandler.CreateToken(tokenConfig);
-                var tokenString = tokenHandler.WriteToken(token);
-
-                return new
-                {
-                    token = tokenString
-                };
-            }
-            catch (Exception ex)
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                throw new InvalidOperationException("Erro ao gerar o token", ex);
-            }
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(3),
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = signinCredentials
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

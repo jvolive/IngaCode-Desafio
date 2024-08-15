@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {}
+    "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
+    "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj",
+        "projectUniqueName": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj",
         "projectName": "IngaCode.Domain",
-        "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj",
+        "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj",
         "packagesPath": "C:\\Users\\joaoo\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\obj\\",
+        "outputPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\joaoo\\AppData\\Roaming\\NuGet\\NuGet.Config"

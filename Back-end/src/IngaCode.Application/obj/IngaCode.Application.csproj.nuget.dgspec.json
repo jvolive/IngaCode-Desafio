@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj": {}
+    "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj": {
+    "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj",
+        "projectUniqueName": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj",
         "projectName": "IngaCode.Application",
-        "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj",
+        "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj",
         "packagesPath": "C:\\Users\\joaoo\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\obj\\",
+        "outputPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\joaoo\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,11 +26,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
-                "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj"
+              "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
+                "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj"
               },
-              "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
-                "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj"
+              "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
+                "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj"
               }
             }
           }
@@ -69,14 +69,14 @@
         }
       }
     },
-    "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
+    "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj",
+        "projectUniqueName": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj",
         "projectName": "IngaCode.Domain",
-        "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj",
+        "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj",
         "packagesPath": "C:\\Users\\joaoo\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\obj\\",
+        "outputPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\joaoo\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -127,14 +127,14 @@
         }
       }
     },
-    "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
+    "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
+        "projectUniqueName": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
         "projectName": "IngaCode.Infrastructure",
-        "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
+        "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\joaoo\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\obj\\",
+        "outputPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\joaoo\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -149,8 +149,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
-                "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj"
+              "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
+                "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj"
               }
             }
           }

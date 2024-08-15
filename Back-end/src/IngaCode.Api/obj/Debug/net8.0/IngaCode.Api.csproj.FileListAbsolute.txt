@@ -38,3 +38,5 @@ C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\obj\Debug\net8.0\refint\I
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\obj\Debug\net8.0\IngaCode.Api.pdb
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\obj\Debug\net8.0\IngaCode.Api.genruntimeconfig.cache
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\obj\Debug\net8.0\ref\IngaCode.Api.dll
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Dapper.dll
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Npgsql.dll

@@ -40,3 +40,11 @@ C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\obj\Debug\net8.0\IngaCode
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\obj\Debug\net8.0\ref\IngaCode.Api.dll
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Dapper.dll
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Npgsql.dll
+c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "CIyE4fgg5r4=",
+  "dgSpecHash": "nd7xjV7JDBo=",
   "success": true,
-  "projectFilePath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Api\\IngaCode.Api.csproj",
+  "projectFilePath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Api\\IngaCode.Api.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\joaoo\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\joaoo\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\joaoo\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.8\\microsoft.aspnetcore.authentication.jwtbearer.8.0.8.nupkg.sha512",
     "C:\\Users\\joaoo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.7\\microsoft.aspnetcore.openapi.8.0.7.nupkg.sha512",

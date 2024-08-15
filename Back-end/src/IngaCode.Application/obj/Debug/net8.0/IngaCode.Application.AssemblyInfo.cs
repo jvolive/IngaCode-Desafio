@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IngaCode.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca18b7f989e123db42f03a1a91d9f2885706d7f6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+389a390a36c504bdcbc793a9e978b514d0a7dd5e")]
 [assembly: System.Reflection.AssemblyProductAttribute("IngaCode.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IngaCode.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

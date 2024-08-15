@@ -44,15 +44,14 @@ namespace IngaCode.Application.Services
             return "User registered successfully";
         }
 
-        private bool VerifyPassword(string storedPassword, string inputPassword)
+        private bool VerifyPassword(string hashedPassword, string inputPassword)
         {
-            var hashedInputPassword = HashPassword(inputPassword);
-            return storedPassword == hashedInputPassword;
+            return BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
         }
 
         private string HashPassword(string password)
         {
-            return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(password));
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 }

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "+8eVIZAavKg=",
+  "dgSpecHash": "AheacOQohRg=",
   "success": true,
   "projectFilePath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Tests\\IngaCode.Tests.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\joaoo\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\joaoo\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\joaoo\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\joaoo\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.8\\microsoft.aspnetcore.authentication.jwtbearer.8.0.8.nupkg.sha512",

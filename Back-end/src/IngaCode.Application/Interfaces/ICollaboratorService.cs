@@ -1,9 +1,11 @@
 using IngaCode.Application.DTOs;
 
-namespace IngaCode.Application.Interfaces;
-
-public interface ICollaboratorService
+namespace IngaCode.Application.Interfaces
 {
-    Task<CollaboratorDto> GetCollaboratorByIdAsync(Guid id);
-    Task<IEnumerable<CollaboratorDto>> GetAllCollaboratorsAsync();
+    public interface ICollaboratorService
+    {
+        Task<CollaboratorDto> GetCollaboratorByNameAsync(string name);
+        Task<CollaboratorDto> GetCollaboratorByUserIdAsync(Guid userId);
+        Task<IEnumerable<CollaboratorDto>> GetAllCollaboratorsAsync();
+    }
 }

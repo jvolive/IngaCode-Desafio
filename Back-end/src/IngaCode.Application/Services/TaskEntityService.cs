@@ -1,10 +1,8 @@
 using AutoMapper;
 using IngaCode.Application.Interfaces;
-using IngaCode.Application.DTOs;
+using IngaCode.Application.DTOs.TaskEntity;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace IngaCode.Application.Services
 {
@@ -19,26 +17,26 @@ namespace IngaCode.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<TaskDto> CreateTaskAsync(TaskCreateDto dto)
+        public async Task<TaskEntityDto> CreateTaskAsync(TaskEntityCreateDto dto)
         {
             var taskEntity = _mapper.Map<TaskEntity>(dto);
             await _taskRepository.AddAsync(taskEntity);
-            return _mapper.Map<TaskDto>(taskEntity);
+            return _mapper.Map<TaskEntityDto>(taskEntity);
         }
 
-        public async Task<IEnumerable<TaskDto>> GetAllTasksAsync()
+        public async Task<IEnumerable<TaskEntityDto>> GetAllTasksAsync()
         {
             var tasks = await _taskRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<TaskDto>>(tasks);
+            return _mapper.Map<IEnumerable<TaskEntityDto>>(tasks);
         }
 
-        public async Task<TaskDto?> GetTaskByIdAsync(int id)
+        public async Task<TaskEntityDto?> GetTaskByIdAsync(Guid id)
         {
             var taskEntity = await _taskRepository.GetByIdAsync(id);
-            return taskEntity == null ? null : _mapper.Map<TaskDto>(taskEntity);
+            return taskEntity == null ? null : _mapper.Map<TaskEntityDto>(taskEntity);
         }
 
-        public async Task UpdateTaskAsync(int id, TaskUpdateDto dto)
+        public async Task UpdateTaskAsync(Guid id, TaskEntityUpdateDto dto)
         {
             var taskEntity = await _taskRepository.GetByIdAsync(id);
             if (taskEntity != null)
@@ -48,7 +46,7 @@ namespace IngaCode.Application.Services
             }
         }
 
-        public async Task DeleteTaskAsync(int id)
+        public async Task DeleteTaskAsync(Guid id)
         {
             await _taskRepository.DeleteAsync(id);
         }

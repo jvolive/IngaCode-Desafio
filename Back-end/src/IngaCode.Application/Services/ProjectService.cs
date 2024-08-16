@@ -1,10 +1,8 @@
 using AutoMapper;
 using IngaCode.Application.Interfaces;
-using IngaCode.Application.DTOs;
+using IngaCode.Application.DTOs.ProjectsDTOs;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace IngaCode.Application.Services
 {
@@ -32,13 +30,13 @@ namespace IngaCode.Application.Services
             return _mapper.Map<IEnumerable<ProjectDto>>(projects);
         }
 
-        public async Task<ProjectDto?> GetProjectByIdAsync(int id)
+        public async Task<ProjectDto?> GetProjectByIdAsync(Guid id)
         {
             var project = await _projectRepository.GetByIdAsync(id);
             return project == null ? null : _mapper.Map<ProjectDto>(project);
         }
 
-        public async Task UpdateProjectAsync(int id, ProjectUpdateDto dto)
+        public async Task UpdateProjectAsync(Guid id, ProjectUpdateDto dto)
         {
             var project = await _projectRepository.GetByIdAsync(id);
             if (project != null)
@@ -48,7 +46,7 @@ namespace IngaCode.Application.Services
             }
         }
 
-        public async Task DeleteProjectAsync(int id)
+        public async Task DeleteProjectAsync(Guid id)
         {
             await _projectRepository.DeleteAsync(id);
         }

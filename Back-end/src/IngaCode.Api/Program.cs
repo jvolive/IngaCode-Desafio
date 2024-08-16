@@ -88,6 +88,11 @@ builder.Services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();
 builder.Services.AddScoped<ITaskEntityRepository, TaskEntityRepository>();
 builder.Services.AddScoped<ITimeTrackerRepository, TimeTrackerRepository>();
 
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICollaboratorService, CollaboratorService>();
+builder.Services.AddScoped<ITaskEntityService, TaskEntityService>();
+builder.Services.AddScoped<ITimeTrackerService, TimeTrackerService>();
+
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 var app = builder.Build();

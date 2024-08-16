@@ -1,108 +1,61 @@
-using IngaCode.Application.DTOs.TimeTrackerDTOs;
+using IngaCode.Application.DTOs;
 using IngaCode.Application.Interfaces;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
-using AutoMapper;
 
-namespace IngaCode.Application.Services
+namespace IngaCode.Application.Services;
+
+public class TimeTrackerService : ITimeTrackerService
 {
-    public class TimeTrackerService : ITimeTrackerService
+    private readonly ITimeTrackerRepository _timeTrackerRepository;
+    private readonly ITaskEntityRepository _taskEntityRepository;
+
+    public TimeTrackerService(ITimeTrackerRepository timeTrackerRepository, ITaskEntityRepository taskEntityRepository)
     {
-        private readonly ITimeTrackerRepository _timeTrackerRepository;
-        private readonly ITaskEntityRepository _taskRepository;
-        private readonly IMapper _mapper;
+        _timeTrackerRepository = timeTrackerRepository;
+        _taskEntityRepository = taskEntityRepository;
+    }
 
-        public TimeTrackerService(ITimeTrackerRepository timeTrackerRepository, ITaskEntityRepository taskRepository, IMapper mapper)
+    public async Task<TimeTrackerDto> StartTrackingTimeAsync(Guid taskId, Guid? collabId, string timeZoneId)
+    {
+        if (string.IsNullOrWhiteSpace(timeZoneId))
+            throw new ArgumentException("TimeZoneId cannot be null or empty", nameof(timeZoneId));
+
+        var task = await _taskEntityRepository.GetByIdAsync(taskId);
+        if (task == null)
+            throw new Exception("Task not found");
+
+        var timeTracker = new TimeTracker
         {
-            _timeTrackerRepository = timeTrackerRepository;
-            _taskRepository = taskRepository;
-            _mapper = mapper;
-        }
+            Id = Guid.NewGuid(),
+            StartDateTime = DateTime.UtcNow,
+            TaskId = taskId,
+            CollabId = collabId,
+            TimeZoneId = timeZoneId
+        };
 
-        public async Task<bool> CreateTimeTrackerAsync(TimeTrackerCreateDto createDto)
+        await _timeTrackerRepository.AddAsync(timeTracker);
+
+        return new TimeTrackerDto
         {
-            var timeTracker = _mapper.Map<TimeTracker>(createDto);
+            Id = timeTracker.Id,
+            StartDateTime = timeTracker.StartDateTime,
+            EndDateTime = timeTracker.EndDateTime,
+            TimeZoneId = timeTracker.TimeZoneId,
+            TaskId = timeTracker.TaskId,
+            CollabId = timeTracker.CollabId
+        };
+    }
 
-            if (timeTracker.StartDate > timeTracker.EndDate)
-            {
-                throw new ArgumentException("O tempo de início deve ser menor ou igual ao tempo de término.");
-            }
+    public async Task<bool> StopTrackingTimeAsync(Guid timeTrackerId)
+    {
+        var timeTracker = await _timeTrackerRepository.GetByIdAsync(timeTrackerId);
+        if (timeTracker == null)
+            throw new Exception("TimeTracker not found");
 
-            var overlapping = await _timeTrackerRepository.GetOverlappingTimeTrackersAsync(timeTracker.TaskId, timeTracker.StartDate, timeTracker.EndDate);
-            if (overlapping.Any())
-            {
-                throw new ArgumentException("O intervalo de tempo colide com um intervalo existente.");
-            }
+        timeTracker.EndDateTime = DateTime.UtcNow;
+        await _timeTrackerRepository.UpdateAsync(timeTracker);
 
-            await _timeTrackerRepository.AddAsync(timeTracker);
-            return true;
-        }
-
-        public async Task<bool> UpdateTimeTrackerAsync(Guid id, TimeTrackerUpdateDto updateDto)
-        {
-            var timeTracker = _mapper.Map<TimeTracker>(updateDto);
-            timeTracker.Id = id;
-
-            if (timeTracker.StartDate > timeTracker.EndDate)
-            {
-                throw new ArgumentException("O tempo de início deve ser menor ou igual ao tempo de término.");
-            }
-
-            if (timeTracker.TaskId == Guid.Empty)
-            {
-                throw new ArgumentException("O ID da tarefa não pode ser vazio.");
-            }
-
-            var overlapping = await _timeTrackerRepository.GetOverlappingTimeTrackersAsync(timeTracker.TaskId, timeTracker.StartDate, timeTracker.EndDate, timeTracker.Id);
-            if (overlapping.Any())
-            {
-                throw new ArgumentException("O intervalo de tempo colide com um intervalo existente.");
-            }
-
-            await _timeTrackerRepository.UpdateAsync(timeTracker);
-            return true;
-        }
-
-        public async Task<bool> DeleteTimeTrackerAsync(Guid id)
-        {
-            await _timeTrackerRepository.DeleteAsync(id);
-            return true;
-        }
-
-        public async Task<IEnumerable<TimeTrackerDto>> GetAllTimeTrackersAsync()
-        {
-            var timeTrackers = await _timeTrackerRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<TimeTrackerDto>>(timeTrackers);
-        }
-
-        public async Task<TimeTrackerDto?> GetTimeTrackerByIdAsync(Guid id)
-        {
-            var timeTracker = await _timeTrackerRepository.GetByIdAsync(id);
-            return _mapper.Map<TimeTrackerDto>(timeTracker);
-        }
-
-        public async Task<IEnumerable<TimeTrackerDto>> GetTimeTrackersByTaskIdAsync(Guid taskId)
-        {
-            var timeTrackers = await _timeTrackerRepository.GetByTaskIdAsync(taskId);
-            return _mapper.Map<IEnumerable<TimeTrackerDto>>(timeTrackers);
-        }
-
-        public async Task<string> GetDailyTotalHoursAsync(DateTime date)
-        {
-            var timeTrackers = await _timeTrackerRepository.GetTimeTrackersByDateAsync(date);
-            var totalSeconds = timeTrackers.Sum(tt => (tt.EndDate - tt.StartDate).TotalSeconds);
-            var totalHours = TimeSpan.FromSeconds(totalSeconds);
-
-            return $"{totalHours.Hours:D2}:{totalHours.Minutes:D2}";
-        }
-
-        public async Task<string> GetMonthlyTotalHoursAsync(DateTime month)
-        {
-            var timeTrackers = await _timeTrackerRepository.GetTimeTrackersByMonthAsync(month);
-            var totalSeconds = timeTrackers.Sum(tt => (tt.EndDate - tt.StartDate).TotalSeconds);
-            var totalHours = TimeSpan.FromSeconds(totalSeconds);
-
-            return $"{totalHours.Hours:D2}:{totalHours.Minutes:D2}";
-        }
+        return true;
     }
 }

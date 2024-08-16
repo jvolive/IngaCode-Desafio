@@ -1,0 +1,9 @@
+namespace IngaCode.Application.DTOs.ProjectsDTOs
+{
+    public class ProjectUpdateDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+    }
+}

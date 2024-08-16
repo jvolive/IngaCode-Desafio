@@ -6,8 +6,8 @@ namespace IngaCode.Application.Interfaces
     {
         Task<ProjectDto> CreateProjectAsync(ProjectCreateDto dto);
         Task<IEnumerable<ProjectDto>> GetAllProjectsAsync();
-        Task<ProjectDto?> GetProjectByIdAsync(int id);
-        Task UpdateProjectAsync(int id, ProjectUpdateDto dto);
-        Task DeleteProjectAsync(int id);
+        Task<ProjectDto?> GetProjectByIdAsync(Guid id);
+        Task UpdateProjectAsync(Guid id, ProjectUpdateDto dto);
+        Task DeleteProjectAsync(Guid id);
     }
 }

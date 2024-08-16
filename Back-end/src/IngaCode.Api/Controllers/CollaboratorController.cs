@@ -1,11 +1,11 @@
+using IngaCode.Application.DTOs.CollaboratorDTOs;
 using IngaCode.Application.Interfaces;
-using IngaCode.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IngaCode.Api.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class CollaboratorController : ControllerBase
     {
         private readonly ICollaboratorService _collaboratorService;
@@ -16,42 +16,60 @@ namespace IngaCode.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<CollaboratorDto>>> GetAllCollaborators()
         {
             var collaborators = await _collaboratorService.GetAllCollaboratorsAsync();
             return Ok(collaborators);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<CollaboratorDto>> GetCollaboratorById(Guid id)
         {
             var collaborator = await _collaboratorService.GetCollaboratorByIdAsync(id);
-
             if (collaborator == null)
+            {
                 return NotFound();
+            }
+            return Ok(collaborator);
+        }
 
+        [HttpGet("name/{name}")]
+        public async Task<ActionResult<CollaboratorDto>> GetCollaboratorByName(string name)
+        {
+            var collaborator = await _collaboratorService.GetCollaboratorByNameAsync(name);
+            if (collaborator == null)
+            {
+                return NotFound();
+            }
             return Ok(collaborator);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Collaborator collaborator)
+        public async Task<ActionResult<CollaboratorDto>> CreateCollaborator([FromBody] CollaboratorCreateDto createDto)
         {
-            var createdCollaborator = await _collaboratorService.CreateCollaboratorAsync(collaborator);
-            return CreatedAtAction(nameof(GetById), new { id = createdCollaborator.Id }, createdCollaborator);
+            if (createDto == null)
+            {
+                return BadRequest();
+            }
+
+            var collaborator = await _collaboratorService.CreateCollaboratorAsync(createDto);
+            return CreatedAtAction(nameof(GetCollaboratorById), new { id = collaborator.Id }, collaborator);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Collaborator collaborator)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> UpdateCollaborator(Guid id, [FromBody] CollaboratorUpdateDto updateDto)
         {
-            if (id != collaborator.Id)
+            if (updateDto == null || id != updateDto.Id)
+            {
                 return BadRequest();
+            }
 
-            await _collaboratorService.UpdateCollaboratorAsync(collaborator);
+            await _collaboratorService.UpdateCollaboratorAsync(id, updateDto);
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> DeleteCollaborator(Guid id)
         {
             await _collaboratorService.DeleteCollaboratorAsync(id);
             return NoContent();

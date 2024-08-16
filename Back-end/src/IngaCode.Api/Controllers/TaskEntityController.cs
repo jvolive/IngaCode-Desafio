@@ -1,12 +1,11 @@
-using IngaCode.Application.Interfaces;
-using IngaCode.Application.DTOs;
-using Microsoft.AspNetCore.Mvc;
 using IngaCode.Application.DTOs.TaskEntity;
+using IngaCode.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IngaCode.Api.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class TaskEntityController : ControllerBase
     {
         private readonly ITaskEntityService _taskEntityService;
@@ -17,59 +16,56 @@ namespace IngaCode.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<TaskEntityDto>>> GetAllTasks()
         {
             var tasks = await _taskEntityService.GetAllTasksAsync();
-            return Ok(tasks); // tasks deve ser uma lista de TaskEntityDto
+            return Ok(tasks);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<TaskEntityDto>> GetTaskById(Guid id)
         {
             var task = await _taskEntityService.GetTaskByIdAsync(id);
-
             if (task == null)
+            {
                 return NotFound();
-
-            return Ok(task); // task deve ser do tipo TaskEntityDto
+            }
+            return Ok(task);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] TaskEntityCreateDto taskDto)
+        public async Task<ActionResult<TaskEntityDto>> CreateTask([FromBody] TaskEntityCreateDto createDto)
         {
-            var createdTask = await _taskEntityService.CreateTaskAsync(taskDto);
-            return CreatedAtAction(nameof(GetById), new { id = createdTask.Id }, createdTask);
+            if (createDto == null)
+            {
+                return BadRequest();
+            }
+
+            var task = await _taskEntityService.CreateTaskAsync(createDto);
+            if (task != null)
+            {
+                return CreatedAtAction(nameof(GetTaskById), new { id = task.Id }, task);
+            }
+            return BadRequest("Unable to create task.");
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] TaskEntityUpdateDto taskDto)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> UpdateTask(Guid id, [FromBody] TaskEntityUpdateDto updateDto)
         {
-            if (id != taskDto.Id)
+            if (updateDto == null || id != updateDto.Id)
+            {
                 return BadRequest();
+            }
 
-            await _taskEntityService.UpdateTaskAsync(taskDto);
+            await _taskEntityService.UpdateTaskAsync(id, updateDto);
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> DeleteTask(Guid id)
         {
             await _taskEntityService.DeleteTaskAsync(id);
             return NoContent();
-        }
-
-        [HttpGet("by-project/{projectId}")]
-        public async Task<IActionResult> GetByProjectId(Guid projectId)
-        {
-            var tasks = await _taskEntityService.GetTasksByProjectIdAsync(projectId);
-            return Ok(tasks);
-        }
-
-        [HttpGet("by-date/{date}")]
-        public async Task<IActionResult> GetByDate(DateTime date)
-        {
-            var tasks = await _taskEntityService.GetTasksByDateAsync(date);
-            return Ok(tasks);
         }
     }
 }

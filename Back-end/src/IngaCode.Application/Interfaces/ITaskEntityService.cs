@@ -6,8 +6,8 @@ namespace IngaCode.Application.Interfaces
     {
         Task<TaskEntityDto> CreateTaskAsync(TaskEntityCreateDto dto);
         Task<IEnumerable<TaskEntityDto>> GetAllTasksAsync();
-        Task<TaskEntityDto?> GetTaskByIdAsync(int id);
-        Task UpdateTaskAsync(int id, TaskEntityUpdateDto dto);
-        Task DeleteTaskAsync(int id);
+        Task<TaskEntityDto?> GetTaskByIdAsync(Guid id);
+        Task UpdateTaskAsync(Guid id, TaskEntityUpdateDto dto);
+        Task DeleteTaskAsync(Guid id);
     }
 }

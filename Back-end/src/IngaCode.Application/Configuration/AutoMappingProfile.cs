@@ -9,9 +9,9 @@ using AutoMapper;
 
 namespace IngaCode.Application.Configuration
 {
-    public class MappingProfile : Profile
+    public class AutoMappingProfile : Profile
     {
-        public MappingProfile()
+        public AutoMappingProfile()
         {
             CreateMap<User, UserResponseDto>();
             CreateMap<UserRegisterDto, User>();
@@ -28,7 +28,10 @@ namespace IngaCode.Application.Configuration
             CreateMap<TimeTrackerCreateDto, TimeTracker>();
             CreateMap<TimeTrackerUpdateDto, TimeTracker>();
 
-            CreateMap<Collaborator, CollaboratorDto>();
+            CreateMap<Collaborator, CollaboratorDto>()
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.UtcDateTime))
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.UtcDateTime))
+                .ForMember(dest => dest.DeletedAt, opt => opt.MapFrom(src => src.DeletedAt.HasValue ? src.DeletedAt.Value.UtcDateTime : (DateTime?)null));
             CreateMap<CollaboratorCreateDto, Collaborator>();
             CreateMap<CollaboratorUpdateDto, Collaborator>();
         }

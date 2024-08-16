@@ -1101,11 +1101,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj",
+      "projectUniqueName": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj",
       "projectName": "IngaCode.Application",
-      "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj",
+      "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj",
       "packagesPath": "C:\\Users\\joaoo\\.nuget\\packages\\",
-      "outputPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\obj\\",
+      "outputPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\joaoo\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1120,11 +1120,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
-              "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj"
+            "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
+              "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj"
             },
-            "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
-              "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj"
+            "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
+              "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj"
             }
           }
         }

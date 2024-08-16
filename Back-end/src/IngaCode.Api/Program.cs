@@ -18,7 +18,7 @@ builder.Services.AddSingleton<IMapper>(sp =>
 {
     var config = new MapperConfiguration(cfg =>
     {
-        cfg.AddProfile<MappingProfile>();
+        cfg.AddProfile<AutoMappingProfile>();
     });
 
     return config.CreateMapper();
@@ -85,11 +85,13 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ITaskEntityRepository, TaskEntityRepository>();
 builder.Services.AddScoped<ITimeTrackerRepository, TimeTrackerRepository>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICollaboratorService, CollaboratorService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskEntityService, TaskEntityService>();
 builder.Services.AddScoped<ITimeTrackerService, TimeTrackerService>();
 

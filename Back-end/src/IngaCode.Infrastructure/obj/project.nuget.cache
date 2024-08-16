@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0fMeHlixzGU=",
+  "dgSpecHash": "caYPCNrpbfY=",
   "success": true,
-  "projectFilePath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
+  "projectFilePath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\joaoo\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512"
   ],

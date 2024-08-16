@@ -16,12 +16,18 @@ namespace IngaCode.Infrastructure.Repository
 
         public async Task AddAsync(Collaborator entity)
         {
+            entity.Id = Guid.NewGuid();
+            entity.CreatedAt = DateTimeOffset.UtcNow;
+            entity.UpdatedAt = DateTimeOffset.UtcNow;
+
             var query = @"
-                INSERT INTO collaborators (id_collab, name_collab, createdAt_collab, updatedAt_collab, deletedAt_collab)
-                VALUES (@Id, @Name, @CreatedAt, @UpdatedAt, @DeletedAt)";
+        INSERT INTO collaborators (id_collab, name_collab, createdAt_collab, updatedAt_collab, deletedAt_collab)
+        VALUES (@Id, @Name, @CreatedAt, @UpdatedAt, @DeletedAt)";
 
             await _dbConnection.ExecuteAsync(query, entity);
         }
+
+
 
         public async Task DeleteAsync(Guid id)
         {

@@ -20,9 +20,18 @@ namespace IngaCode.Application.Services
         public async Task<CollaboratorDto> CreateCollaboratorAsync(CollaboratorCreateDto dto)
         {
             var collaborator = _mapper.Map<Collaborator>(dto);
+            collaborator.Id = Guid.NewGuid();
+            collaborator.CreatedAt = DateTime.UtcNow;
+            collaborator.UpdatedAt = DateTime.UtcNow;
+            collaborator.DeletedAt = null;
+
             await _collaboratorRepository.AddAsync(collaborator);
-            return _mapper.Map<CollaboratorDto>(collaborator);
+
+            var createdCollaborator = await _collaboratorRepository.GetByIdAsync(collaborator.Id);
+
+            return _mapper.Map<CollaboratorDto>(createdCollaborator);
         }
+
 
         public async Task<IEnumerable<CollaboratorDto>> GetAllCollaboratorsAsync()
         {

@@ -45,16 +45,16 @@ namespace IngaCode.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CollaboratorDto>> CreateCollaborator([FromBody] CollaboratorCreateDto createDto)
+        public async Task<IActionResult> CreateCollaborator([FromBody] CollaboratorCreateDto createDto)
         {
-            if (createDto == null)
+            var result = await _collaboratorService.CreateCollaboratorAsync(createDto);
+            if (result != null)
             {
-                return BadRequest();
+                return Ok(result);
             }
-
-            var collaborator = await _collaboratorService.CreateCollaboratorAsync(createDto);
-            return CreatedAtAction(nameof(GetCollaboratorById), new { id = collaborator.Id }, collaborator);
+            return BadRequest("Unable to create collaborator.");
         }
+
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> UpdateCollaborator(Guid id, [FromBody] CollaboratorUpdateDto updateDto)

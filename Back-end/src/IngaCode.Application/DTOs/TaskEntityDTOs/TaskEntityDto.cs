@@ -1,4 +1,4 @@
-using IngaCode.Application.DTOs.TimerTrackerDTOs;
+using IngaCode.Application.DTOs.TimeTrackerDTOs;
 
 namespace IngaCode.Application.DTOs.TaskEntity
 {

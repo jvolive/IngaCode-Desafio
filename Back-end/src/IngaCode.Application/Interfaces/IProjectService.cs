@@ -1,14 +1,13 @@
-using IngaCode.Domain.Entities;
+using IngaCode.Application.DTOs.ProjectsDTOs;
 
 namespace IngaCode.Application.Interfaces
 {
     public interface IProjectService
     {
-        Task<IEnumerable<Project>> GetAllProjectsAsync();
-        Task<Project> GetProjectByIdAsync(Guid id);
-        Task<Project> CreateProjectAsync(Project project);
-        Task UpdateProjectAsync(Project project);
-        Task DeleteProjectAsync(Guid id);
-        Task<IEnumerable<Project>> GetProjectsByCriteriaAsync(string? name = null, DateTime? createdAfter = null, DateTime? createdBefore = null);
+        Task<ProjectDto> CreateProjectAsync(ProjectCreateDto dto);
+        Task<IEnumerable<ProjectDto>> GetAllProjectsAsync();
+        Task<ProjectDto?> GetProjectByIdAsync(int id);
+        Task UpdateProjectAsync(int id, ProjectUpdateDto dto);
+        Task DeleteProjectAsync(int id);
     }
 }

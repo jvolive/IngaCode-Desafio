@@ -1,6 +1,8 @@
+using IngaCode.Application.DTOs.TimeTrackerDTOs;
 using IngaCode.Application.Interfaces;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
+using AutoMapper;
 
 namespace IngaCode.Application.Services
 {
@@ -8,23 +10,25 @@ namespace IngaCode.Application.Services
     {
         private readonly ITimeTrackerRepository _timeTrackerRepository;
         private readonly ITaskEntityRepository _taskRepository;
+        private readonly IMapper _mapper;
 
-        public TimeTrackerService(ITimeTrackerRepository timeTrackerRepository, ITaskEntityRepository taskRepository)
+        public TimeTrackerService(ITimeTrackerRepository timeTrackerRepository, ITaskEntityRepository taskRepository, IMapper mapper)
         {
             _timeTrackerRepository = timeTrackerRepository;
             _taskRepository = taskRepository;
+            _mapper = mapper;
         }
 
-        public async Task AddTimeTrackerAsync(TimeTracker timeTracker)
+        public async Task AddTimeTrackerAsync(TimeTrackerCreateDto timeTrackerDto)
         {
+            var timeTracker = _mapper.Map<TimeTracker>(timeTrackerDto);
+
             if (timeTracker.StartDate > timeTracker.EndDate)
             {
                 throw new ArgumentException("O tempo de início deve ser menor ou igual ao tempo de término.");
             }
 
-            var taskId = timeTracker.TaskId ?? throw new ArgumentException("O TaskId não pode ser nulo.");
-            var overlapping = await _timeTrackerRepository.GetOverlappingTimeTrackersAsync(taskId, timeTracker.StartDate, timeTracker.EndDate);
-
+            var overlapping = await _timeTrackerRepository.GetOverlappingTimeTrackersAsync(timeTracker.TaskId, timeTracker.StartDate, timeTracker.EndDate);
             if (overlapping.Any())
             {
                 throw new ArgumentException("O intervalo de tempo colide com um intervalo existente.");
@@ -33,21 +37,16 @@ namespace IngaCode.Application.Services
             await _timeTrackerRepository.AddAsync(timeTracker);
         }
 
-        public async Task UpdateTimeTrackerAsync(TimeTracker timeTracker)
+        public async Task UpdateTimeTrackerAsync(TimeTrackerUpdateDto timeTrackerDto)
         {
+            var timeTracker = _mapper.Map<TimeTracker>(timeTrackerDto);
+
             if (timeTracker.StartDate > timeTracker.EndDate)
             {
                 throw new ArgumentException("O tempo de início deve ser menor ou igual ao tempo de término.");
             }
 
-            var taskId = timeTracker.TaskId;
-
-            if (!taskId.HasValue || taskId.Value == Guid.Empty)
-            {
-                throw new ArgumentException("O TaskId deve ser um Guid válido.");
-            }
-
-            var overlapping = await _timeTrackerRepository.GetOverlappingTimeTrackersAsync(taskId.Value, timeTracker.StartDate, timeTracker.EndDate, timeTracker.Id);
+            var overlapping = await _timeTrackerRepository.GetOverlappingTimeTrackersAsync(timeTracker.TaskId, timeTracker.StartDate, timeTracker.EndDate, timeTracker.Id);
             if (overlapping.Any())
             {
                 throw new ArgumentException("O intervalo de tempo colide com um intervalo existente.");
@@ -56,25 +55,27 @@ namespace IngaCode.Application.Services
             await _timeTrackerRepository.UpdateAsync(timeTracker);
         }
 
-
         public async Task DeleteTimeTrackerAsync(Guid id)
         {
             await _timeTrackerRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<TimeTracker>> GetAllTimeTrackersAsync()
+        public async Task<IEnumerable<TimeTrackerResponseDto>> GetAllTimeTrackersAsync()
         {
-            return await _timeTrackerRepository.GetAllAsync();
+            var timeTrackers = await _timeTrackerRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<TimeTrackerResponseDto>>(timeTrackers);
         }
 
-        public async Task<TimeTracker> GetTimeTrackerByIdAsync(Guid id)
+        public async Task<TimeTrackerResponseDto> GetTimeTrackerByIdAsync(Guid id)
         {
-            return await _timeTrackerRepository.GetByIdAsync(id);
+            var timeTracker = await _timeTrackerRepository.GetByIdAsync(id);
+            return _mapper.Map<TimeTrackerResponseDto>(timeTracker);
         }
 
-        public async Task<IEnumerable<TimeTracker>> GetTimeTrackersByTaskIdAsync(Guid taskId)
+        public async Task<IEnumerable<TimeTrackerResponseDto>> GetTimeTrackersByTaskIdAsync(Guid taskId)
         {
-            return await _timeTrackerRepository.GetByTaskIdAsync(taskId);
+            var timeTrackers = await _timeTrackerRepository.GetByTaskIdAsync(taskId);
+            return _mapper.Map<IEnumerable<TimeTrackerResponseDto>>(timeTrackers);
         }
 
         public async Task<string> GetDailyTotalHoursAsync(DateTime date)

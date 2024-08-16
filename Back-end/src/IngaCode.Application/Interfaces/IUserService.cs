@@ -1,10 +1,11 @@
-using IngaCode.Domain.Entities;
+using IngaCode.Application.DTOs;
+using IngaCode.Application.DTOs.UserDTOs;
 
 namespace IngaCode.Application.Interfaces
 {
     public interface IUserService
     {
-        Task<User?> AuthenticateUserAsync(string username, string password);
-        Task<string> RegisterUserAsync(string username, string password);
+        Task<UserResponseDto?> AuthenticateUserAsync(UserLoginDto loginDto);
+        Task<string> RegisterUserAsync(UserRegisterDto registerDto);
     }
 }

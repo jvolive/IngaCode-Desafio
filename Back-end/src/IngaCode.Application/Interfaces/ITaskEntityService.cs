@@ -1,15 +1,13 @@
-using IngaCode.Domain.Entities;
+using IngaCode.Application.DTOs.TaskEntity;
 
 namespace IngaCode.Application.Interfaces
 {
     public interface ITaskEntityService
     {
-        Task<IEnumerable<TaskEntity>> GetAllTasksAsync();
-        Task<TaskEntity> GetTaskByIdAsync(Guid id);
-        Task<TaskEntity> CreateTaskAsync(TaskEntity task);
-        Task UpdateTaskAsync(TaskEntity task);
-        Task DeleteTaskAsync(Guid id);
-        Task<IEnumerable<TaskEntity>> GetTasksByProjectIdAsync(Guid projectId);
-        Task<IEnumerable<TaskEntity>> GetTasksByDateAsync(DateTime date);
+        Task<TaskEntityDto> CreateTaskAsync(TaskEntityCreateDto dto);
+        Task<IEnumerable<TaskEntityDto>> GetAllTasksAsync();
+        Task<TaskEntityDto?> GetTaskByIdAsync(int id);
+        Task UpdateTaskAsync(int id, TaskEntityUpdateDto dto);
+        Task DeleteTaskAsync(int id);
     }
 }

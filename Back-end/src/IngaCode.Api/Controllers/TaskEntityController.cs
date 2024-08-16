@@ -1,7 +1,7 @@
 using IngaCode.Application.Interfaces;
-using IngaCode.Domain.Entities;
+using IngaCode.Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
-
+using IngaCode.Application.DTOs.TaskEntity;
 
 namespace IngaCode.Api.Controllers
 {
@@ -20,7 +20,7 @@ namespace IngaCode.Api.Controllers
         public async Task<IActionResult> GetAll()
         {
             var tasks = await _taskEntityService.GetAllTasksAsync();
-            return Ok(tasks);
+            return Ok(tasks); // tasks deve ser uma lista de TaskEntityDto
         }
 
         [HttpGet("{id}")]
@@ -31,23 +31,23 @@ namespace IngaCode.Api.Controllers
             if (task == null)
                 return NotFound();
 
-            return Ok(task);
+            return Ok(task); // task deve ser do tipo TaskEntityDto
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] TaskEntity task)
+        public async Task<IActionResult> Create([FromBody] TaskEntityCreateDto taskDto)
         {
-            var createdTask = await _taskEntityService.CreateTaskAsync(task);
+            var createdTask = await _taskEntityService.CreateTaskAsync(taskDto);
             return CreatedAtAction(nameof(GetById), new { id = createdTask.Id }, createdTask);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] TaskEntity task)
+        public async Task<IActionResult> Update(Guid id, [FromBody] TaskEntityUpdateDto taskDto)
         {
-            if (id != task.Id)
+            if (id != taskDto.Id)
                 return BadRequest();
 
-            await _taskEntityService.UpdateTaskAsync(task);
+            await _taskEntityService.UpdateTaskAsync(taskDto);
             return NoContent();
         }
 

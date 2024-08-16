@@ -1,3 +1,4 @@
+using IngaCode.Application.Configuration;
 using IngaCode.Application.Configuration.Swagger;
 using IngaCode.Application.Interfaces;
 using IngaCode.Application.Services;
@@ -9,8 +10,19 @@ using Microsoft.OpenApi.Models;
 using Npgsql;
 using System.Data;
 using System.Text;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IMapper>(sp =>
+{
+    var config = new MapperConfiguration(cfg =>
+    {
+        cfg.AddProfile<MappingProfile>();
+    });
+
+    return config.CreateMapper();
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -70,7 +82,6 @@ builder.Services.AddAuthentication(x =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
-
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();

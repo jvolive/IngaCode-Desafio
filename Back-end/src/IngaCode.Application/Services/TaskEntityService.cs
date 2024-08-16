@@ -1,54 +1,56 @@
+using AutoMapper;
 using IngaCode.Application.Interfaces;
+using IngaCode.Application.DTOs;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace IngaCode.Application.Services
 {
     public class TaskEntityService : ITaskEntityService
     {
         private readonly ITaskEntityRepository _taskRepository;
-        private readonly ITimeTrackerRepository _timeTrackerRepository;
+        private readonly IMapper _mapper;
 
-        public TaskEntityService(ITaskEntityRepository taskRepository, ITimeTrackerRepository timeTrackerRepository)
+        public TaskEntityService(ITaskEntityRepository taskRepository, IMapper mapper)
         {
             _taskRepository = taskRepository;
-            _timeTrackerRepository = timeTrackerRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<TaskEntity>> GetAllTasksAsync()
+        public async Task<TaskDto> CreateTaskAsync(TaskCreateDto dto)
         {
-            return await _taskRepository.GetAllAsync();
+            var taskEntity = _mapper.Map<TaskEntity>(dto);
+            await _taskRepository.AddAsync(taskEntity);
+            return _mapper.Map<TaskDto>(taskEntity);
         }
 
-        public async Task<TaskEntity> GetTaskByIdAsync(Guid id)
+        public async Task<IEnumerable<TaskDto>> GetAllTasksAsync()
         {
-            return await _taskRepository.GetByIdAsync(id);
+            var tasks = await _taskRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<TaskDto>>(tasks);
         }
 
-        public async Task<TaskEntity> CreateTaskAsync(TaskEntity task)
+        public async Task<TaskDto?> GetTaskByIdAsync(int id)
         {
-            await _taskRepository.AddAsync(task);
-            return task;
+            var taskEntity = await _taskRepository.GetByIdAsync(id);
+            return taskEntity == null ? null : _mapper.Map<TaskDto>(taskEntity);
         }
 
-        public async Task UpdateTaskAsync(TaskEntity task)
+        public async Task UpdateTaskAsync(int id, TaskUpdateDto dto)
         {
-            await _taskRepository.UpdateAsync(task);
+            var taskEntity = await _taskRepository.GetByIdAsync(id);
+            if (taskEntity != null)
+            {
+                _mapper.Map(dto, taskEntity);
+                await _taskRepository.UpdateAsync(taskEntity);
+            }
         }
 
-        public async Task DeleteTaskAsync(Guid id)
+        public async Task DeleteTaskAsync(int id)
         {
             await _taskRepository.DeleteAsync(id);
-        }
-
-        public async Task<IEnumerable<TaskEntity>> GetTasksByProjectIdAsync(Guid projectId)
-        {
-            return await _taskRepository.GetByProjectIdAsync(projectId);
-        }
-
-        public async Task<IEnumerable<TaskEntity>> GetTasksByDateAsync(DateTime date)
-        {
-            return await _taskRepository.GetTasksByDateAsync(date);
         }
     }
 }

@@ -1,6 +1,7 @@
 using IngaCode.Application.Interfaces;
-using IngaCode.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using IngaCode.Application.DTOs.ProjectsDTOs;
+
 
 namespace IngaCode.Api.Controllers
 {
@@ -26,25 +27,37 @@ namespace IngaCode.Api.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             var project = await _projectService.GetProjectByIdAsync(id);
-
             if (project == null)
+            {
                 return NotFound();
-
+            }
             return Ok(project);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Project project)
+        public async Task<IActionResult> Create(ProjectCreateDto dto)
         {
+            var project = new Project
+            {
+                Name = dto.Name,
+                Description = dto.Description
+            };
+
             var createdProject = await _projectService.CreateProjectAsync(project);
             return CreatedAtAction(nameof(GetById), new { id = createdProject.Id }, createdProject);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Project project)
+        public async Task<IActionResult> Update(Guid id, ProjectUpdateDto dto)
         {
-            if (id != project.Id)
-                return BadRequest();
+            var project = await _projectService.GetProjectByIdAsync(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            project.Name = dto.Name;
+            project.Description = dto.Description;
 
             await _projectService.UpdateProjectAsync(project);
             return NoContent();
@@ -53,15 +66,14 @@ namespace IngaCode.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
+            var project = await _projectService.GetProjectByIdAsync(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
             await _projectService.DeleteProjectAsync(id);
             return NoContent();
-        }
-
-        [HttpGet("by-criteria")]
-        public async Task<IActionResult> GetByCriteria([FromQuery] string? name = null, [FromQuery] DateTime? createdAfter = null, [FromQuery] DateTime? createdBefore = null)
-        {
-            var projects = await _projectService.GetProjectsByCriteriaAsync(name, createdAfter, createdBefore);
-            return Ok(projects);
         }
     }
 }

@@ -1,10 +1,8 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using IngaCode.Application.Interfaces;
-using IngaCode.Domain.Entities;
-using IngaCode.Domain.Interfaces;
+using IngaCode.Application.DTOs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -13,15 +11,13 @@ namespace IngaCode.Application.Services
     public class JwtTokenService : IJwtTokenService
     {
         private readonly IConfiguration _configuration;
-        private readonly IUserRepository _userRepository;
 
-        public JwtTokenService(IConfiguration configuration, IUserRepository userRepository)
+        public JwtTokenService(IConfiguration configuration)
         {
             _configuration = configuration;
-            _userRepository = userRepository;
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(UserDto userDto)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var issuer = _configuration["Jwt:Issuer"];
@@ -31,7 +27,7 @@ namespace IngaCode.Application.Services
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Sub, userDto.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

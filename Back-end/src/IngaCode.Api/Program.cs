@@ -11,21 +11,24 @@ using Npgsql;
 using System.Data;
 using System.Text;
 using AutoMapper;
+using IngaCode.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuração AutoMapper
 builder.Services.AddSingleton<IMapper>(sp =>
 {
     var config = new MapperConfiguration(cfg =>
     {
         cfg.AddProfile<AutoMappingProfile>();
     });
-
     return config.CreateMapper();
 });
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// Configuração Swagger
 builder.Services.AddSwaggerGen(c =>
 {
     c.OperationFilter<SwaggerDefaultValues>();
@@ -57,12 +60,14 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// DB
 builder.Services.AddScoped<IDbConnection>(sp =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     return new NpgsqlConnection(connectionString);
 });
 
+// Autenticação e autorização JWT
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -89,8 +94,7 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ITaskEntityRepository, TaskEntityRepository>();
 builder.Services.AddScoped<ITimeTrackerRepository, TimeTrackerRepository>();
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICollaboratorService, CollaboratorService>();
+
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskEntityService, TaskEntityService>();
 builder.Services.AddScoped<ITimeTrackerService, TimeTrackerService>();

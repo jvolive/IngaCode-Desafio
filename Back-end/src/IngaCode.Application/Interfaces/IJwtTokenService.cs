@@ -1,9 +1,9 @@
-using IngaCode.Domain.Entities;
+using IngaCode.Application.DTOs;
 
 namespace IngaCode.Application.Interfaces
 {
     public interface IJwtTokenService
     {
-        string GenerateToken(User user);
+        string GenerateToken(UserDto userDto);
     }
 }

@@ -1,14 +1,9 @@
-using IngaCode.Application.DTOs.CollaboratorDTOs;
+using IngaCode.Application.DTOs;
 
-namespace IngaCode.Application.Interfaces
+namespace IngaCode.Application.Interfaces;
+
+public interface ICollaboratorService
 {
-    public interface ICollaboratorService
-    {
-        Task<IEnumerable<CollaboratorDto>> GetAllCollaboratorsAsync();
-        Task<CollaboratorDto?> GetCollaboratorByIdAsync(Guid id);
-        Task<CollaboratorDto> CreateCollaboratorAsync(CollaboratorCreateDto dto);
-        Task UpdateCollaboratorAsync(Guid id, CollaboratorUpdateDto dto);
-        Task DeleteCollaboratorAsync(Guid id);
-        Task<CollaboratorDto?> GetCollaboratorByNameAsync(string name);
-    }
+    Task<CollaboratorDto> GetCollaboratorByIdAsync(Guid id);
+    Task<IEnumerable<CollaboratorDto>> GetAllCollaboratorsAsync();
 }

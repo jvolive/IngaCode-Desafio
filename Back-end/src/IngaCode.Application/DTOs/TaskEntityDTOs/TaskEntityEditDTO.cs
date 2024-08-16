@@ -1,6 +1,6 @@
 namespace IngaCode.Application.DTOs.TaskEntity;
 
-public class TaskEntityDto
+public class TaskEntityEditDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
@@ -9,3 +9,4 @@ public class TaskEntityDto
     public Guid? CollaboratorId { get; set; }
     public IEnumerable<TimeTrackerDto> TimeTrackers { get; set; } = new List<TimeTrackerDto>();
 }
+

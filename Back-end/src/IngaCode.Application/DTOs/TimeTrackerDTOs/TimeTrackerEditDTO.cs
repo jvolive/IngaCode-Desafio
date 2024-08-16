@@ -1,6 +1,6 @@
-namespace IngaCode.Application.DTOs;
+namespace IngaCode.Application.DTOs.TimeTrackerDTOs;
 
-public class TimeTrackerDto
+public class TimeTrackerEditDto
 {
     public Guid Id { get; set; }
     public DateTime StartDate { get; set; }
@@ -9,4 +9,3 @@ public class TimeTrackerDto
     public Guid TaskId { get; set; }
     public Guid? CollaboratorId { get; set; }
 }
-

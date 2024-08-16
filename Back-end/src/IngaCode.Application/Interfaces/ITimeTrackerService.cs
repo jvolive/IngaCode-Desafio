@@ -1,13 +1,14 @@
+using IngaCode.Application.DTOs;
 using IngaCode.Application.DTOs.TimeTrackerDTOs;
 
-namespace IngaCode.Application.Interfaces
+namespace IngaCode.Application.Interfaces;
+
+public interface ITimeTrackerService
 {
-    public interface ITimeTrackerService
-    {
-        Task<IEnumerable<TimeTrackerDto>> GetAllTimeTrackersAsync();
-        Task<TimeTrackerDto> GetTimeTrackerByIdAsync(Guid id);
-        Task<bool> CreateTimeTrackerAsync(TimeTrackerCreateDto createDto);
-        Task<bool> UpdateTimeTrackerAsync(Guid id, TimeTrackerUpdateDto updateDto);
-        Task<bool> DeleteTimeTrackerAsync(Guid id);
-    }
+    Task<TimeTrackerDto> CreateTimeTrackerAsync(TimeTrackerEditDto timeTrackerCreateDto);
+    Task<TimeTrackerDto> UpdateTimeTrackerAsync(Guid id, TimeTrackerEditDto timeTrackerEditDto);
+    Task<TimeTrackerDto> GetTimeTrackerByIdAsync(Guid id);
+    Task<IEnumerable<TimeTrackerDto>> GetAllTimeTrackersAsync();
+    Task DeleteTimeTrackerAsync(Guid id);
 }
+

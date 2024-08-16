@@ -1,3 +1,5 @@
+namespace IngaCode.Application.DTOs;
+
 public class CollaboratorDto
 {
     public Guid Id { get; set; }

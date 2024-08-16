@@ -4,9 +4,9 @@ namespace IngaCode.Application.Interfaces;
 
 public interface IProjectService
 {
-    Task<ProjectDto> GetByIdAsync(Guid id);
-    Task<IEnumerable<ProjectDto>> GetAllAsync();
-    Task<ProjectDto> CreateAsync(ProjectEditDto projectDto);
-    Task<bool> UpdateAsync(ProjectEditDto projectDto);
-    Task<bool> DeleteAsync(Guid id);
+    Task<ProjectDto> GetProjectByIdAsync(Guid id);
+    Task<IEnumerable<ProjectDto>> GetAllProjectsAsync();
+    Task<ProjectDto> CreateProjectAsync(ProjectEditDto projectDto);
+    Task<bool> UpdateProjectAsync(Guid id, ProjectEditDto projectDto);
+    Task<bool> DeleteProjectAsync(Guid id);
 }

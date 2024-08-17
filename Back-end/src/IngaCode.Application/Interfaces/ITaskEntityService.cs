@@ -1,13 +1,12 @@
 using IngaCode.Application.DTOs.TaskEntity;
 
-namespace IngaCode.Application.Interfaces
+namespace IngaCode.Application.Interfaces;
+
+public interface ITaskEntityService
 {
-    public interface ITaskEntityService
-    {
-        Task<TaskEntityDto> CreateTaskAsync(TaskEntityCreateDto dto);
-        Task<IEnumerable<TaskEntityDto>> GetAllTasksAsync();
-        Task<TaskEntityDto?> GetTaskByIdAsync(Guid id);
-        Task UpdateTaskAsync(Guid id, TaskEntityUpdateDto dto);
-        Task DeleteTaskAsync(Guid id);
-    }
+    Task<TaskEntityDto> GetTaskEntityByIdAsync(Guid id);
+    Task<IEnumerable<TaskEntityDto>> GetAllTaskEntityAsync();
+    Task<TaskEntityDto> CreateTaskEntityAsync(TaskEntityEditDto taskEntityDto);
+    Task<bool> UpdateTaskEntityAsync(Guid id, TaskEntityEditDto taskEntityDto);
+    Task<bool> DeleteTaskEntityAsync(Guid id);
 }

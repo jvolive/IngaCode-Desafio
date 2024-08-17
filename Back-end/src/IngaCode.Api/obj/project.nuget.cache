@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "X1ysOUUuwuc=",
+  "dgSpecHash": "vz6ZgkL5ihQ=",
   "success": true,
-  "projectFilePath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Api\\IngaCode.Api.csproj",
+  "projectFilePath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Api\\IngaCode.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\joaoo\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\joaoo\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

@@ -1,79 +1,44 @@
-using IngaCode.Application.DTOs.TimeTrackerDTOs;
-using IngaCode.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using IngaCode.Application.Interfaces;
 
-namespace IngaCode.Api.Controllers
+namespace IngaCode.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class TimeTrackerController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TimeTrackerController : ControllerBase
+    private readonly ITimeTrackerService _timeTrackerService;
+
+    public TimeTrackerController(ITimeTrackerService timeTrackerService)
     {
-        private readonly ITimeTrackerService _timeTrackerService;
+        _timeTrackerService = timeTrackerService;
+    }
 
-        public TimeTrackerController(ITimeTrackerService timeTrackerService)
+    [HttpPost("start")]
+    public async Task<IActionResult> StartTracking(Guid taskId, Guid? collabId, [FromQuery] string timeZoneId)
+    {
+        try
         {
-            _timeTrackerService = timeTrackerService;
+            var result = await _timeTrackerService.StartTrackingTimeAsync(taskId, collabId, timeZoneId);
+            return Ok(result);
         }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<TimeTrackerDto>>> GetAllTimeTrackers()
+        catch (Exception ex)
         {
-            var timeTrackers = await _timeTrackerService.GetAllTimeTrackersAsync();
-            return Ok(timeTrackers);
+            return BadRequest(new { Message = ex.Message });
         }
+    }
 
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult<TimeTrackerDto>> GetTimeTrackerById(Guid id)
+    [HttpPost("stop")]
+    public async Task<IActionResult> StopTracking(Guid timeTrackerId)
+    {
+        try
         {
-            var timeTracker = await _timeTrackerService.GetTimeTrackerByIdAsync(id);
-            if (timeTracker == null)
-            {
-                return NotFound();
-            }
-            return Ok(timeTracker);
+            var success = await _timeTrackerService.StopTrackingTimeAsync(timeTrackerId);
+            return Ok(new { Success = success });
         }
-
-        [HttpPost]
-        public async Task<ActionResult> CreateTimeTracker([FromBody] TimeTrackerCreateDto createDto)
+        catch (Exception ex)
         {
-            if (createDto == null)
-            {
-                return BadRequest();
-            }
-
-            var result = await _timeTrackerService.CreateTimeTrackerAsync(createDto);
-            if (result)
-            {
-                return CreatedAtAction(nameof(GetTimeTrackerById), new { id = createDto.Id }, createDto);
-            }
-            return BadRequest("Unable to create time tracker.");
-        }
-
-        [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateTimeTracker(Guid id, [FromBody] TimeTrackerUpdateDto updateDto)
-        {
-            if (updateDto == null || id != updateDto.Id)
-            {
-                return BadRequest();
-            }
-
-            var result = await _timeTrackerService.UpdateTimeTrackerAsync(id, updateDto);
-            if (result)
-            {
-                return NoContent();
-            }
-            return NotFound();
-        }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<ActionResult> DeleteTimeTracker(Guid id)
-        {
-            var result = await _timeTrackerService.DeleteTimeTrackerAsync(id);
-            if (result)
-            {
-                return NoContent();
-            }
-            return NotFound();
+            return BadRequest(new { Message = ex.Message });
         }
     }
 }

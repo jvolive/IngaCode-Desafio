@@ -1,9 +1,8 @@
 using IngaCode.Domain.Entities;
 
-namespace IngaCode.Domain.Interfaces
+namespace IngaCode.Domain.Interfaces;
+public interface IUserRepository
 {
-    public interface IUserRepository : IRepository<User>
-    {
-        Task<User> GetByUsernameAsync(string username);
-    }
+    Task<User> GetByUsernameAsync(string username);
+    Task<bool> VerifyUserPasswordAsync(string username, string password);
 }

@@ -1,71 +1,77 @@
-using IngaCode.Application.DTOs.ProjectsDTOs;
 using IngaCode.Application.Interfaces;
+using IngaCode.Application.DTOs.ProjectsDTOs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IngaCode.Api.Controllers
+namespace IngaCode.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class ProjectsController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProjectController : ControllerBase
+    private readonly IProjectService _projectService;
+
+    public ProjectsController(IProjectService projectService)
     {
-        private readonly IProjectService _projectService;
+        _projectService = projectService;
+    }
 
-        public ProjectController(IProjectService projectService)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProjectById(Guid id)
+    {
+        var project = await _projectService.GetProjectByIdAsync(id);
+        if (project == null)
         {
-            _projectService = projectService;
+            return NotFound();
+        }
+        return Ok(project);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll()
+    {
+        var projects = await _projectService.GetAllProjectsAsync();
+        return Ok(projects);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] ProjectEditDto projectDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAllProjects()
+        var createdProject = await _projectService.CreateProjectAsync(projectDto);
+        return CreatedAtAction(nameof(GetProjectById), new { id = createdProject.Id }, createdProject);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProject(Guid id, [FromBody] ProjectEditDto projectDto)
+    {
+        if (!ModelState.IsValid)
         {
-            var projects = await _projectService.GetAllProjectsAsync();
-            return Ok(projects);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult<ProjectDto>> GetProjectById(Guid id)
+        var success = await _projectService.UpdateProjectAsync(id, projectDto);
+        if (!success)
         {
-            var project = await _projectService.GetProjectByIdAsync(id);
-            if (project == null)
-            {
-                return NotFound();
-            }
-            return Ok(project);
+            return NotFound();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<ProjectDto>> CreateProject([FromBody] ProjectCreateDto createDto)
-        {
-            if (createDto == null)
-            {
-                return BadRequest();
-            }
+        return NoContent();
+    }
 
-            var project = await _projectService.CreateProjectAsync(createDto);
-            if (project != null)
-            {
-                return CreatedAtAction(nameof(GetProjectById), new { id = project.Id }, project);
-            }
-            return BadRequest("Unable to create project.");
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProject(Guid id)
+    {
+        var success = await _projectService.DeleteProjectAsync(id);
+        if (!success)
+        {
+            return NotFound();
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task<ActionResult> UpdateProject(Guid id, [FromBody] ProjectUpdateDto updateDto)
-        {
-            if (updateDto == null || id != updateDto.Id)
-            {
-                return BadRequest();
-            }
-
-            await _projectService.UpdateProjectAsync(id, updateDto);
-            return NoContent();
-        }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<ActionResult> DeleteProject(Guid id)
-        {
-            await _projectService.DeleteProjectAsync(id);
-            return NoContent();
-        }
+        return NoContent();
     }
 }
+

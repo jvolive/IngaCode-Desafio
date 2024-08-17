@@ -1,69 +1,37 @@
+using IngaCode.Application.DTOs;
 using IngaCode.Application.Interfaces;
-using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
-using IngaCode.Application.DTOs.CollaboratorDTOs;
 using AutoMapper;
 
-namespace IngaCode.Application.Services
+namespace IngaCode.Application.Services;
+
+public class CollaboratorService : ICollaboratorService
 {
-    public class CollaboratorService : ICollaboratorService
+    private readonly ICollaboratorRepository _collaboratorRepository;
+    private readonly IMapper _mapper;
+
+    public CollaboratorService(ICollaboratorRepository collaboratorRepository, IMapper mapper)
     {
-        private readonly ICollaboratorRepository _collaboratorRepository;
-        private readonly IMapper _mapper;
+        _collaboratorRepository = collaboratorRepository;
+        _mapper = mapper;
+    }
 
-        public CollaboratorService(ICollaboratorRepository collaboratorRepository, IMapper mapper)
-        {
-            _collaboratorRepository = collaboratorRepository;
-            _mapper = mapper;
-        }
+    public async Task<CollaboratorDto> GetCollaboratorByNameAsync(string name)
+    {
+        var collaborator = await _collaboratorRepository.GetByNameAsync(name);
+        return collaborator == null ? null : _mapper.Map<CollaboratorDto>(collaborator);
+    }
 
-        public async Task<CollaboratorDto> CreateCollaboratorAsync(CollaboratorCreateDto dto)
-        {
-            var collaborator = _mapper.Map<Collaborator>(dto);
-            collaborator.Id = Guid.NewGuid();
-            collaborator.CreatedAt = DateTime.UtcNow;
-            collaborator.UpdatedAt = DateTime.UtcNow;
-            collaborator.DeletedAt = null;
+    public async Task<CollaboratorDto> GetCollaboratorByUserIdAsync(Guid userId)
+    {
+        var collaborator = await _collaboratorRepository.GetByUserIdAsync(userId);
+        return collaborator == null ? null : _mapper.Map<CollaboratorDto>(collaborator);
+    }
 
-            await _collaboratorRepository.AddAsync(collaborator);
-
-            var createdCollaborator = await _collaboratorRepository.GetByIdAsync(collaborator.Id);
-
-            return _mapper.Map<CollaboratorDto>(createdCollaborator);
-        }
-
-
-        public async Task<IEnumerable<CollaboratorDto>> GetAllCollaboratorsAsync()
-        {
-            var collaborators = await _collaboratorRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<CollaboratorDto>>(collaborators);
-        }
-
-        public async Task<CollaboratorDto?> GetCollaboratorByIdAsync(Guid id)
-        {
-            var collaborator = await _collaboratorRepository.GetByIdAsync(id);
-            return collaborator == null ? null : _mapper.Map<CollaboratorDto>(collaborator);
-        }
-
-        public async Task UpdateCollaboratorAsync(Guid id, CollaboratorUpdateDto dto)
-        {
-            var collaborator = await _collaboratorRepository.GetByIdAsync(id);
-            if (collaborator != null)
-            {
-                _mapper.Map(dto, collaborator);
-                await _collaboratorRepository.UpdateAsync(collaborator);
-            }
-        }
-
-        public async Task DeleteCollaboratorAsync(Guid id)
-        {
-            await _collaboratorRepository.DeleteAsync(id);
-        }
-
-        public async Task<CollaboratorDto?> GetCollaboratorByNameAsync(string name)
-        {
-            var collaborator = await _collaboratorRepository.GetByNameAsync(name);
-            return collaborator == null ? null : _mapper.Map<CollaboratorDto>(collaborator);
-        }
+    public async Task<IEnumerable<CollaboratorDto>> GetAllCollaboratorsAsync()
+    {
+        var collaborators = await _collaboratorRepository.GetAllAsync();
+        return _mapper.Map<IEnumerable<CollaboratorDto>>(collaborators);
     }
 }
+

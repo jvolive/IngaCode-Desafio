@@ -1,12 +1,12 @@
-namespace IngaCode.Application.DTOs.TimeTrackerDTOs
-{
-    public class TimeTrackerDto
-    {
-        public Guid Id { get; set; }
-        public Guid TaskId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public string TimeZone { get; set; }
-    }
+namespace IngaCode.Application.DTOs;
 
+public class TimeTrackerDto
+{
+    public Guid Id { get; set; }
+    public DateTime StartDateTime { get; set; }
+    public DateTime? EndDateTime { get; set; }
+    public string TimeZoneId { get; set; }
+    public Guid TaskId { get; set; }
+    public Guid? CollabId { get; set; }
 }
+

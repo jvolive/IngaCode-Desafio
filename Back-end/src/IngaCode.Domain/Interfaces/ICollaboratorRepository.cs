@@ -1,9 +1,10 @@
 using IngaCode.Domain.Entities;
 
-namespace IngaCode.Domain.Interfaces
+namespace IngaCode.Domain.Interfaces;
+
+public interface ICollaboratorRepository
 {
-    public interface ICollaboratorRepository : IRepository<Collaborator>
-    {
-        Task<Collaborator> GetByNameAsync(string name);
-    }
+    Task<Collaborator> GetByNameAsync(string name);
+    Task<Collaborator> GetByUserIdAsync(Guid UserId);
+    Task<IEnumerable<Collaborator>> GetAllAsync();
 }

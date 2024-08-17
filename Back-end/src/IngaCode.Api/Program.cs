@@ -14,65 +14,71 @@ using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuração AutoMapper
 builder.Services.AddSingleton<IMapper>(sp =>
 {
     var config = new MapperConfiguration(cfg =>
     {
         cfg.AddProfile<AutoMappingProfile>();
     });
-
     return config.CreateMapper();
 });
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.OperationFilter<SwaggerDefaultValues>();
 
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+// Configuração Swagger
+builder.Services.AddSwaggerGen(opt =>
+{
+    opt.SwaggerDoc("v1", new OpenApiInfo()
     {
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
+        Version = "v1",
+        Title = "IngaCode.Api",
+        Description = "Api para o desafio técnico da Ingacode",
     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Autorização JWT no cabeçalho usando esquema Bearer \r\n\r\n Digite 'Bearer' antes de colocar o token"
+    });
+
+    opt.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
                 },
-                Scheme = "oauth2",
-                Name = "Bearer",
-                In = ParameterLocation.Header,
-            },
-            new List<string>()
+                Array.Empty<string>()
         }
     });
 });
 
+// DB
 builder.Services.AddScoped<IDbConnection>(sp =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     return new NpgsqlConnection(connectionString);
 });
 
+// Autenticação JWT
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(x =>
+.AddJwtBearer(opt =>
 {
-    x.RequireHttpsMetadata = false;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new TokenValidationParameters
+    opt.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
@@ -89,13 +95,12 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ITaskEntityRepository, TaskEntityRepository>();
 builder.Services.AddScoped<ITimeTrackerRepository, TimeTrackerRepository>();
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICollaboratorService, CollaboratorService>();
+
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskEntityService, TaskEntityService>();
 builder.Services.AddScoped<ITimeTrackerService, TimeTrackerService>();
 
-builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 

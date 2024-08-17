@@ -1,13 +1,12 @@
 using IngaCode.Application.DTOs.ProjectsDTOs;
 
-namespace IngaCode.Application.Interfaces
+namespace IngaCode.Application.Interfaces;
+
+public interface IProjectService
 {
-    public interface IProjectService
-    {
-        Task<ProjectDto> CreateProjectAsync(ProjectCreateDto dto);
-        Task<IEnumerable<ProjectDto>> GetAllProjectsAsync();
-        Task<ProjectDto?> GetProjectByIdAsync(Guid id);
-        Task UpdateProjectAsync(Guid id, ProjectUpdateDto dto);
-        Task DeleteProjectAsync(Guid id);
-    }
+    Task<ProjectDto> GetProjectByIdAsync(Guid id);
+    Task<IEnumerable<ProjectDto>> GetAllProjectsAsync();
+    Task<ProjectDto> CreateProjectAsync(ProjectEditDto projectDto);
+    Task<bool> UpdateProjectAsync(Guid id, ProjectEditDto projectDto);
+    Task<bool> DeleteProjectAsync(Guid id);
 }

@@ -1,6 +1,6 @@
-namespace IngaCode.Domain.Entities;
+namespace IngaCode.Application.DTOs;
 
-public class User
+public class UserDto
 {
     public required string UserName { get; set; }
     public required string Password { get; set; }

@@ -1,8 +1,7 @@
-namespace IngaCode.Domain.Entities;
+namespace IngaCode.Application.DTOs;
 
-public class Collaborator
+public class CollaboratorDto
 {
     public string Name { get; set; }
     public Guid UserId { get; set; }
 }
-

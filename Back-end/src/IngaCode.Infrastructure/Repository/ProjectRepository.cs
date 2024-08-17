@@ -3,58 +3,64 @@ using IngaCode.Domain.Interfaces;
 using System.Data;
 using Dapper;
 
-namespace IngaCode.Infrastructure.Repository
+namespace IngaCode.Infrastructure.Repository;
+public class ProjectRepository : IProjectRepository
 {
-    public class ProjectRepository : IProjectRepository
+    private readonly IDbConnection _dbConnection;
+
+    public ProjectRepository(IDbConnection dbConnection)
     {
-        private readonly IDbConnection _dbConnection;
+        _dbConnection = dbConnection;
+    }
 
-        public ProjectRepository(IDbConnection dbConnection)
+    public async Task<Project> GetByIdAsync(Guid id)
+    {
+        var query = "SELECT * FROM projects WHERE id_proj = @Id";
+        return await _dbConnection.QuerySingleOrDefaultAsync<Project>(query, new { Id = id });
+    }
+
+    public async Task<Project> GetByNameAsync(string name)
+    {
+        var query = "SELECT * FROM projects WHERE name_proj = @Name";
+        return await _dbConnection.QuerySingleOrDefaultAsync<Project>(query, new { Name = name });
+    }
+
+    public async Task<IEnumerable<Project>> GetAllAsync()
+    {
+        var query = "SELECT * FROM projects";
+        return (await _dbConnection.QueryAsync<Project>(query)).ToList();
+    }
+    public async Task AddAsync(Project entity)
+    {
+        var query = @"
+            INSERT INTO projects (name_proj, createdAt_proj, updatedAt_proj, deletedAt_proj)
+            VALUES (@Name, @CreatedAt, @UpdatedAt, @DeletedAt) 
+            RETURNING id_proj";
+        entity.Id = await _dbConnection.ExecuteScalarAsync<Guid>(query, new
         {
-            _dbConnection = dbConnection;
-        }
+            Name = entity.Name,
+            CreatedAt = entity.CreatedAt,
+            UpdatedAt = entity.UpdatedAt,
+            DeletedAt = entity.DeletedAt
+        });
+    }
 
-        public async Task AddAsync(Project entity)
-        {
-            var query = @"
-                INSERT INTO projects (id_proj, name_proj, createdAt_proj, updatedAt_proj, deletedAt_proj)
-                VALUES (@Id, @Name, @CreatedAt, @UpdatedAt, @DeletedAt)";
+    public async Task DeleteAsync(Guid id)
+    {
+        var query = "DELETE FROM projects WHERE id_proj = @Id";
+        await _dbConnection.ExecuteAsync(query, new { Id = id });
+    }
 
-            await _dbConnection.ExecuteAsync(query, entity);
-        }
+    public async Task UpdateAsync(Project entity)
+    {
+        var query = @"
+            UPDATE projects
+            SET name_proj = @Name, 
+                createdAt_proj = @CreatedAt, 
+                updatedAt_proj = @UpdatedAt, 
+                deletedAt_proj = @DeletedAt
+            WHERE id_proj = @Id";
 
-        public async Task DeleteAsync(Guid id)
-        {
-            var query = "DELETE FROM projects WHERE id_proj = @Id";
-            await _dbConnection.ExecuteAsync(query, new { Id = id });
-        }
-
-        public async Task<IEnumerable<Project>> GetAllAsync()
-        {
-            var query = "SELECT * FROM projects";
-            return await _dbConnection.QueryAsync<Project>(query);
-        }
-
-        public async Task<Project> GetByIdAsync(Guid id)
-        {
-            var query = "SELECT * FROM projects WHERE id_proj = @Id";
-            return await _dbConnection.QuerySingleOrDefaultAsync<Project>(query, new { Id = id });
-        }
-
-        public async Task<Project> GetByNameAsync(string name)
-        {
-            var query = "SELECT * FROM projects WHERE name_proj = @Name";
-            return await _dbConnection.QuerySingleOrDefaultAsync<Project>(query, new { Name = name });
-        }
-
-        public async Task UpdateAsync(Project entity)
-        {
-            var query = @"
-                UPDATE projects
-                SET name_proj = @Name, createdAt_proj = @CreatedAt, updatedAt_proj = @UpdatedAt, deletedAt_proj = @DeletedAt
-                WHERE id_proj = @Id";
-
-            await _dbConnection.ExecuteAsync(query, entity);
-        }
+        await _dbConnection.ExecuteAsync(query, entity);
     }
 }

@@ -1,8 +1,8 @@
 using IngaCode.Application.Interfaces;
-using IngaCode.Application.DTOs.ProjectsDTOs;
+using IngaCode.Application.DTOs;
+using AutoMapper;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
-using AutoMapper;
 
 namespace IngaCode.Application.Services;
 
@@ -17,49 +17,30 @@ public class ProjectService : IProjectService
         _mapper = mapper;
     }
 
-    public async Task<ProjectDto> GetProjectByIdAsync(Guid id)
-    {
-        var project = await _projectRepository.GetByIdAsync(id);
-        return project == null ? null : _mapper.Map<ProjectDto>(project);
-    }
-
-    public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync()
+    public async Task<IEnumerable<ProjectDto>> GetAllAsync()
     {
         var projects = await _projectRepository.GetAllAsync();
         return _mapper.Map<IEnumerable<ProjectDto>>(projects);
     }
 
-    public async Task<ProjectDto> CreateProjectAsync(ProjectEditDto dto)
+    public async Task<ProjectDto> GetByNameAsync(string name)
     {
-        var projectEntity = _mapper.Map<Project>(dto);
-        await _projectRepository.AddAsync(projectEntity);
-        var createdProject = await _projectRepository.GetByIdAsync(projectEntity.Id);
-        return _mapper.Map<ProjectDto>(createdProject);
+        var project = await _projectRepository.GetByNameAsync(name);
+        return _mapper.Map<ProjectDto>(project);
     }
 
-    public async Task<bool> UpdateProjectAsync(Guid id, ProjectEditDto dto)
+    public async Task AddAsync(Project entity)
     {
-        var project = await _projectRepository.GetByIdAsync(id);
-        if (project != null)
-        {
-            _mapper.Map(dto, project);
-            await _projectRepository.UpdateAsync(project);
-            return true;
-        }
-        return false;
+        await _projectRepository.AddAsync(entity);
     }
 
-
-    public async Task<bool> DeleteProjectAsync(Guid id)
+    public async Task UpdateAsync(Project entity)
     {
-        try
-        {
-            await _projectRepository.DeleteAsync(id);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        await _projectRepository.UpdateAsync(entity);
+    }
+
+    public async Task DeleteAsync(string name)
+    {
+        await _projectRepository.DeleteAsync(name);
     }
 }

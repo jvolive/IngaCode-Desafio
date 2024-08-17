@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using IngaCode.Application.Interfaces;
-using IngaCode.Application.DTOs.TaskEntity;
+using IngaCode.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IngaCode.WebApi.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class TaskEntityController : ControllerBase
@@ -20,59 +19,18 @@ public class TaskEntityController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TaskEntityDto>>> GetAll()
     {
-        var tasks = await _taskEntityService.GetAllTaskEntityAsync();
+        var tasks = await _taskEntityService.GetAllAsync();
         return Ok(tasks);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<TaskEntityDto>> GetById(Guid id)
+    [HttpGet("{name}")]
+    public async Task<IActionResult> GetByName(string name)
     {
-        var task = await _taskEntityService.GetTaskEntityByIdAsync(id);
+        var task = await _taskEntityService.GetByNameAsync(name);
         if (task == null)
         {
             return NotFound();
         }
         return Ok(task);
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<TaskEntityDto>> Create([FromBody] TaskEntityEditDto dto)
-    {
-        if (dto == null)
-        {
-            return BadRequest("Task data is null");
-        }
-
-        var task = await _taskEntityService.CreateTaskEntityAsync(dto);
-        return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] TaskEntityEditDto dto)
-    {
-        if (dto == null || id != id)
-        {
-            return BadRequest("Task data is invalid");
-        }
-
-        var result = await _taskEntityService.UpdateTaskEntityAsync(id, dto);
-        if (!result)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        var result = await _taskEntityService.DeleteTaskEntityAsync(id);
-        if (!result)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
     }
 }

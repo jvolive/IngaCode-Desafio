@@ -47,14 +47,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[13.0.1, )"
-            },
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[12.0.1, )"
-            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.8, )"
@@ -128,8 +120,8 @@
               "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj": {
                 "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Domain\\IngaCode.Domain.csproj"
               },
-              "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
-                "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj"
+              "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
+                "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj"
               }
             }
           }
@@ -152,10 +144,6 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[13.0.1, )"
-            },
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[12.0.1, )"
             },
             "BCrypt.Net-Next": {
               "target": "Package",
@@ -256,14 +244,14 @@
         }
       }
     },
-    "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
+    "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
+        "projectUniqueName": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
         "projectName": "IngaCode.Infrastructure",
-        "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
+        "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\IngaCode.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\joaoo\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\obj\\",
+        "outputPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\joaoo\\AppData\\Roaming\\NuGet\\NuGet.Config"

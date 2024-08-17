@@ -1,5 +1,4 @@
 using IngaCode.Application.Configuration;
-using IngaCode.Application.Configuration.Swagger;
 using IngaCode.Application.Interfaces;
 using IngaCode.Application.Services;
 using IngaCode.Domain.Interfaces;
@@ -10,19 +9,11 @@ using Microsoft.OpenApi.Models;
 using Npgsql;
 using System.Data;
 using System.Text;
-using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuração AutoMapper
-builder.Services.AddSingleton<IMapper>(sp =>
-{
-    var config = new MapperConfiguration(cfg =>
-    {
-        cfg.AddProfile<AutoMappingProfile>();
-    });
-    return config.CreateMapper();
-});
+builder.Services.AddAutoMapper(typeof(AutoMappingProfile).Assembly);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -98,7 +89,6 @@ builder.Services.AddScoped<ITimeTrackerRepository, TimeTrackerRepository>();
 
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskEntityService, TaskEntityService>();
-builder.Services.AddScoped<ITimeTrackerService, TimeTrackerService>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 

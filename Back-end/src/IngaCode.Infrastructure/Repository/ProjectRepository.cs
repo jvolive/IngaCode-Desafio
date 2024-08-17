@@ -13,10 +13,10 @@ public class ProjectRepository : IProjectRepository
         _dbConnection = dbConnection;
     }
 
-    public async Task<Project> GetByIdAsync(Guid id)
+    public async Task<IEnumerable<Project>> GetAllAsync()
     {
-        var query = "SELECT * FROM projects WHERE id_proj = @Id";
-        return await _dbConnection.QuerySingleOrDefaultAsync<Project>(query, new { Id = id });
+        var query = "SELECT * FROM projects";
+        return (await _dbConnection.QueryAsync<Project>(query)).ToList();
     }
 
     public async Task<Project> GetByNameAsync(string name)
@@ -25,30 +25,13 @@ public class ProjectRepository : IProjectRepository
         return await _dbConnection.QuerySingleOrDefaultAsync<Project>(query, new { Name = name });
     }
 
-    public async Task<IEnumerable<Project>> GetAllAsync()
-    {
-        var query = "SELECT * FROM projects";
-        return (await _dbConnection.QueryAsync<Project>(query)).ToList();
-    }
     public async Task AddAsync(Project entity)
     {
         var query = @"
-            INSERT INTO projects (name_proj, createdAt_proj, updatedAt_proj, deletedAt_proj)
-            VALUES (@Name, @CreatedAt, @UpdatedAt, @DeletedAt) 
+            INSERT INTO projects (name_proj)
+            VALUES (@Name) 
             RETURNING id_proj";
-        entity.Id = await _dbConnection.ExecuteScalarAsync<Guid>(query, new
-        {
-            Name = entity.Name,
-            CreatedAt = entity.CreatedAt,
-            UpdatedAt = entity.UpdatedAt,
-            DeletedAt = entity.DeletedAt
-        });
-    }
-
-    public async Task DeleteAsync(Guid id)
-    {
-        var query = "DELETE FROM projects WHERE id_proj = @Id";
-        await _dbConnection.ExecuteAsync(query, new { Id = id });
+        entity.Id = await _dbConnection.ExecuteScalarAsync<Guid>(query, entity);
     }
 
     public async Task UpdateAsync(Project entity)
@@ -56,11 +39,19 @@ public class ProjectRepository : IProjectRepository
         var query = @"
             UPDATE projects
             SET name_proj = @Name, 
-                createdAt_proj = @CreatedAt, 
                 updatedAt_proj = @UpdatedAt, 
-                deletedAt_proj = @DeletedAt
-            WHERE id_proj = @Id";
+            WHERE id_proj = @Name";
 
-        await _dbConnection.ExecuteAsync(query, entity);
+        await _dbConnection.ExecuteAsync(query, new
+        {
+            Name = entity.Name,
+            UpdatedAt = entity.UpdatedAt,
+        });
+    }
+
+    public async Task DeleteAsync(string name)
+    {
+        var query = "DELETE FROM projects WHERE name_proj = @Name";
+        await _dbConnection.ExecuteAsync(query, new { Name = name });
     }
 }

@@ -6,7 +6,6 @@ C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\IngaCode
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\IngaCode.Api.dll
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\IngaCode.Api.pdb
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\AutoMapper.dll
-C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Dapper.dll
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

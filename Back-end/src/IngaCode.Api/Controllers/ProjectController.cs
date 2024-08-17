@@ -1,5 +1,5 @@
 using IngaCode.Application.Interfaces;
-using IngaCode.Application.DTOs.ProjectsDTOs;
+using IngaCode.Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IngaCode.API.Controllers;
@@ -15,10 +15,17 @@ public class ProjectsController : ControllerBase
         _projectService = projectService;
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetProjectById(Guid id)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll()
     {
-        var project = await _projectService.GetProjectByIdAsync(id);
+        var projects = await _projectService.GetAllAsync();
+        return Ok(projects);
+    }
+
+    [HttpGet("{name}")]
+    public async Task<IActionResult> GetByName(string name)
+    {
+        var project = await _projectService.GetByNameAsync(name);
         if (project == null)
         {
             return NotFound();
@@ -26,52 +33,9 @@ public class ProjectsController : ControllerBase
         return Ok(project);
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll()
-    {
-        var projects = await _projectService.GetAllProjectsAsync();
-        return Ok(projects);
-    }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] ProjectEditDto projectDto)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
 
-        var createdProject = await _projectService.CreateProjectAsync(projectDto);
-        return CreatedAtAction(nameof(GetProjectById), new { id = createdProject.Id }, createdProject);
-    }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProject(Guid id, [FromBody] ProjectEditDto projectDto)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
 
-        var success = await _projectService.UpdateProjectAsync(id, projectDto);
-        if (!success)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProject(Guid id)
-    {
-        var success = await _projectService.DeleteProjectAsync(id);
-        if (!success)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
-    }
 }
 

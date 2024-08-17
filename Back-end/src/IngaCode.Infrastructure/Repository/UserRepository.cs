@@ -22,9 +22,9 @@ public class UserRepository : IUserRepository
     public async Task<bool> VerifyUserPasswordAsync(string username, string password)
     {
         var query = @"
-                SELECT verify_password(password_user, @Password) 
-                FROM users 
-                WHERE username_user = @Username";
+            SELECT verify_password(password_user, @Password) 
+            FROM users 
+            WHERE username_user = @Username";
 
         var isValid = await _dbConnection.QuerySingleAsync<bool>(query, new { Username = username, Password = password });
         return isValid;

@@ -8,24 +8,22 @@ namespace IngaCode.Api.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthenticationService _authenticationService;
+    private readonly ITokenService _tokenService;
 
-    public AuthController(IAuthenticationService authenticationService)
+    public AuthController(ITokenService tokenService)
     {
-        _authenticationService = authenticationService;
+        _tokenService = tokenService;
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
-        try
+        var token = _tokenService.GenerateToken(loginDto);
+        if (token == "")
         {
-            var token = await _authenticationService.AuthenticateAsync(loginDto.UserName, loginDto.Password);
-            return Ok(new { Token = token });
+            return Unauthorized();
         }
-        catch (UnauthorizedAccessException)
-        {
-            return Unauthorized("Invalid credentials");
-        }
+
+        return Ok(token);
     }
 }

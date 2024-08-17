@@ -1,4 +1,4 @@
-c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\bin\Debug\net8.0\IngaCode.Application.deps.json
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\bin\Debug\net8.0\IngaCode.Application.deps.json
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\bin\Debug\net8.0\IngaCode.Application.dll
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\bin\Debug\net8.0\IngaCode.Application.pdb
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\bin\Debug\net8.0\IngaCode.Domain.dll
@@ -11,8 +11,8 @@ C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\IngaCode.Application.AssemblyInfo.cs
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\IngaCode.Application.csproj.CoreCompileInputs.cache
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\IngaCode.Application.sourcelink.json
-c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\IngaCode.7752C6A8.Up2Date
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\IngaCode.7752C6A8.Up2Date
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\IngaCode.Application.dll
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\refint\IngaCode.Application.dll
 C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\IngaCode.Application.pdb
-c:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\ref\IngaCode.Application.dll
+C:\Projects\IngaCode-Desafio\Back-end\src\IngaCode.Application\obj\Debug\net8.0\ref\IngaCode.Application.dll

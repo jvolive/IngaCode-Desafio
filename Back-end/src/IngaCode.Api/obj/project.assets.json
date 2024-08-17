@@ -1299,11 +1299,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Api\\IngaCode.Api.csproj",
+      "projectUniqueName": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Api\\IngaCode.Api.csproj",
       "projectName": "IngaCode.Api",
-      "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Api\\IngaCode.Api.csproj",
+      "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Api\\IngaCode.Api.csproj",
       "packagesPath": "C:\\Users\\joaoo\\.nuget\\packages\\",
-      "outputPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Api\\obj\\",
+      "outputPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\joaoo\\AppData\\Roaming\\NuGet\\NuGet.Config"

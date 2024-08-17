@@ -1,41 +1,33 @@
-using IngaCode.Application.Interfaces;
 using IngaCode.Application.DTOs;
+using IngaCode.Application.Interfaces;
 using IngaCode.Domain.Interfaces;
 
-
-namespace IngaCode.Application.Services
+namespace IngaCode.Application.Services;
+public class AuthenticationService : IAuthenticationService
 {
-    public class AuthenticationService : IAuthenticationService
+    private readonly IUserRepository _userRepository;
+    private readonly IJwtTokenService _jwtTokenService;
+
+    public AuthenticationService(IUserRepository userRepository, IJwtTokenService jwtTokenService)
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IJwtTokenService _jwtTokenService;
+        _userRepository = userRepository;
+        _jwtTokenService = jwtTokenService;
+    }
 
-        public AuthenticationService(IUserRepository userRepository, IJwtTokenService jwtTokenService)
+    public async Task<string> AuthenticateAsync(string username, string password)
+    {
+        var user = await _userRepository.GetByUsernameAsync(username);
+
+        if (user != null && await _userRepository.VerifyUserPasswordAsync(username, password))
         {
-            _userRepository = userRepository;
-            _jwtTokenService = jwtTokenService;
-        }
-
-        public async Task<string> AuthenticateAsync(string username, string password)
-        {
-            var user = await _userRepository.GetByUsernameAsync(username);
-
-            if (user != null && VerifyPassword(user.Password, password))
+            var userDto = new UserDto
             {
-                var userDto = new UserDto
-                {
-                    UserName = user.UserName
-                };
+                UserName = user.UserName
+            };
 
-                return _jwtTokenService.GenerateToken(userDto);
-            }
-
-            throw new UnauthorizedAccessException("Invalid credentials");
+            return _jwtTokenService.GenerateToken(userDto);
         }
 
-        private bool VerifyPassword(string storedPassword, string providedPassword)
-        {
-            return storedPassword == providedPassword;
-        }
+        throw new UnauthorizedAccessException("Invalid credentials");
     }
 }

@@ -11,7 +11,6 @@ using Npgsql;
 using System.Data;
 using System.Text;
 using AutoMapper;
-using IngaCode.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,6 +99,7 @@ builder.Services.AddScoped<ITaskEntityService, TaskEntityService>();
 builder.Services.AddScoped<ITimeTrackerService, TimeTrackerService>();
 
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var app = builder.Build();
 

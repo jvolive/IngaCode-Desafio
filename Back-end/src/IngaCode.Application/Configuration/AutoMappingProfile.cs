@@ -12,16 +12,15 @@ public class AutoMappingProfile : Profile
     public AutoMappingProfile()
     {
 
-        CreateMap<TaskEntity, TaskEntityDto>()
+        CreateMap<TaskEntityEditDto, TaskEntity>()
             .ForMember(dest => dest.TimeTrackers, opt => opt.MapFrom(src => src.TimeTrackers));
-        CreateMap<TaskEntityEditDto, TaskEntity>();
 
-
-        CreateMap<Project, ProjectDto>();
+        CreateMap<Project, ProjectDto>()
+            .ReverseMap();
         CreateMap<ProjectEditDto, Project>();
 
-        CreateMap<TimeTracker, TimeTrackerDto>();
-        CreateMap<TimeTrackerEditDto, TimeTracker>();
+        CreateMap<TimeTracker, TimeTrackerDto>()
+            .ReverseMap();
 
         CreateMap<Collaborator, CollaboratorDto>()
             .ReverseMap();

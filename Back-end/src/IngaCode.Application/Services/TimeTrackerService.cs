@@ -2,6 +2,7 @@ using IngaCode.Application.DTOs;
 using IngaCode.Application.Interfaces;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
+using AutoMapper;
 
 namespace IngaCode.Application.Services;
 
@@ -9,11 +10,13 @@ public class TimeTrackerService : ITimeTrackerService
 {
     private readonly ITimeTrackerRepository _timeTrackerRepository;
     private readonly ITaskEntityRepository _taskEntityRepository;
+    private readonly IMapper _mapper;
 
-    public TimeTrackerService(ITimeTrackerRepository timeTrackerRepository, ITaskEntityRepository taskEntityRepository)
+    public TimeTrackerService(ITimeTrackerRepository timeTrackerRepository, ITaskEntityRepository taskEntityRepository, IMapper mapper)
     {
         _timeTrackerRepository = timeTrackerRepository;
         _taskEntityRepository = taskEntityRepository;
+        _mapper = mapper;
     }
 
     public async Task<TimeTrackerDto> StartTrackingTimeAsync(Guid taskId, Guid? collabId, string timeZoneId)
@@ -36,15 +39,7 @@ public class TimeTrackerService : ITimeTrackerService
 
         await _timeTrackerRepository.AddAsync(timeTracker);
 
-        return new TimeTrackerDto
-        {
-            Id = timeTracker.Id,
-            StartDateTime = timeTracker.StartDateTime,
-            EndDateTime = timeTracker.EndDateTime,
-            TimeZoneId = timeTracker.TimeZoneId,
-            TaskId = timeTracker.TaskId,
-            CollabId = timeTracker.CollabId
-        };
+        return _mapper.Map<TimeTrackerDto>(timeTracker);
     }
 
     public async Task<bool> StopTrackingTimeAsync(Guid timeTrackerId)

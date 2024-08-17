@@ -1318,8 +1318,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj": {
-              "projectPath": "C:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj"
+            "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj": {
+              "projectPath": "c:\\Projects\\IngaCode-Desafio\\Back-end\\src\\IngaCode.Application\\IngaCode.Application.csproj"
             }
           }
         }

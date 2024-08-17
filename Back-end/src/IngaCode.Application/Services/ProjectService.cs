@@ -31,9 +31,12 @@ public class ProjectService : IProjectService
 
     public async Task<ProjectDto> CreateProjectAsync(ProjectEditDto dto)
     {
-        var project = _mapper.Map<Project>(dto);
-        await _projectRepository.AddAsync(project);
-        return _mapper.Map<ProjectDto>(project);
+        var projectEntity = _mapper.Map<Project>(dto);
+
+        await _projectRepository.AddAsync(projectEntity);
+
+        var createdProject = await _projectRepository.GetByIdAsync(projectEntity.Id);
+        return _mapper.Map<ProjectDto>(createdProject);
     }
 
     public async Task<bool> UpdateProjectAsync(Guid id, ProjectEditDto dto)

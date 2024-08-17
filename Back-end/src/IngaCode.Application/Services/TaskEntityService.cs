@@ -1,6 +1,6 @@
-using IngaCode.Application.Interfaces;
 using IngaCode.Application.DTOs;
 using IngaCode.Application.DTOs.TaskEntity;
+using IngaCode.Application.Interfaces;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
 using AutoMapper;
@@ -41,7 +41,6 @@ public class TaskEntityService : ITaskEntityService
         var tasks = await _taskRepository.GetAllAsync();
         var taskDtos = _mapper.Map<IEnumerable<TaskEntityDto>>(tasks);
 
-
         foreach (var taskDto in taskDtos)
         {
             var timeTrackers = await _timeTrackerRepository.GetByTaskIdAsync(taskDto.Id);
@@ -53,11 +52,9 @@ public class TaskEntityService : ITaskEntityService
 
     public async Task<TaskEntityDto> CreateAsync(TaskEntityEditDto dto)
     {
-
         var taskEntity = _mapper.Map<TaskEntity>(dto);
 
         await _taskRepository.AddAsync(taskEntity);
-
 
         if (dto.TimeTrackers != null)
         {
@@ -69,7 +66,6 @@ public class TaskEntityService : ITaskEntityService
             }
         }
 
-
         var createdTask = await _taskRepository.GetByIdAsync(taskEntity.Id);
         return _mapper.Map<TaskEntityDto>(createdTask);
     }
@@ -79,9 +75,7 @@ public class TaskEntityService : ITaskEntityService
         var taskEntity = await _taskRepository.GetByIdAsync(dto.Id);
         if (taskEntity == null) return false;
 
-
         _mapper.Map(dto, taskEntity);
-        await _taskRepository.UpdateAsync(taskEntity);
 
         if (dto.TimeTrackers != null)
         {
@@ -99,8 +93,11 @@ public class TaskEntityService : ITaskEntityService
             }
         }
 
+        await _taskRepository.UpdateAsync(taskEntity);
+
         return true;
     }
+
 
     public async Task<bool> DeleteAsync(Guid id)
     {
@@ -121,4 +118,3 @@ public class TaskEntityService : ITaskEntityService
         }
     }
 }
-

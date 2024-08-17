@@ -23,7 +23,7 @@ public class TaskEntityService : ITaskEntityService
         _mapper = mapper;
     }
 
-    public async Task<TaskEntityDto?> GetByIdAsync(Guid id)
+    public async Task<TaskEntityDto?> GetTaskEntityByIdAsync(Guid id)
     {
         var taskEntity = await _taskRepository.GetByIdAsync(id);
         if (taskEntity == null) return null;
@@ -36,7 +36,7 @@ public class TaskEntityService : ITaskEntityService
         return taskDto;
     }
 
-    public async Task<IEnumerable<TaskEntityDto>> GetAllAsync()
+    public async Task<IEnumerable<TaskEntityDto>> GetAllTaskEntityAsync()
     {
         var tasks = await _taskRepository.GetAllAsync();
         var taskDtos = _mapper.Map<IEnumerable<TaskEntityDto>>(tasks);
@@ -50,7 +50,7 @@ public class TaskEntityService : ITaskEntityService
         return taskDtos;
     }
 
-    public async Task<TaskEntityDto> CreateAsync(TaskEntityEditDto dto)
+    public async Task<TaskEntityDto> CreateTaskEntityAsync(TaskEntityEditDto dto)
     {
         var taskEntity = _mapper.Map<TaskEntity>(dto);
 
@@ -70,16 +70,16 @@ public class TaskEntityService : ITaskEntityService
         return _mapper.Map<TaskEntityDto>(createdTask);
     }
 
-    public async Task<bool> UpdateAsync(TaskEntityEditDto dto)
+    public async Task<bool> UpdateTaskEntityAsync(Guid id, TaskEntityEditDto dto)
     {
-        var taskEntity = await _taskRepository.GetByIdAsync(dto.Id);
+        var taskEntity = await _taskRepository.GetByIdAsync(id);
         if (taskEntity == null) return false;
 
         _mapper.Map(dto, taskEntity);
 
         if (dto.TimeTrackers != null)
         {
-            var existingTrackers = await _timeTrackerRepository.GetByTaskIdAsync(dto.Id);
+            var existingTrackers = await _timeTrackerRepository.GetByTaskIdAsync(id);
             foreach (var existingTracker in existingTrackers)
             {
                 await _timeTrackerRepository.DeleteAsync(existingTracker.Id);
@@ -98,8 +98,7 @@ public class TaskEntityService : ITaskEntityService
         return true;
     }
 
-
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteTaskEntityAsync(Guid id)
     {
         try
         {

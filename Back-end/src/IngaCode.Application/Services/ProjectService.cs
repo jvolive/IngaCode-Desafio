@@ -32,9 +32,7 @@ public class ProjectService : IProjectService
     public async Task<ProjectDto> CreateProjectAsync(ProjectEditDto dto)
     {
         var projectEntity = _mapper.Map<Project>(dto);
-
         await _projectRepository.AddAsync(projectEntity);
-
         var createdProject = await _projectRepository.GetByIdAsync(projectEntity.Id);
         return _mapper.Map<ProjectDto>(createdProject);
     }

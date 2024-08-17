@@ -18,9 +18,9 @@ namespace IngaCode.Infrastructure.Repository
         {
             var query = @"
                 INSERT INTO tasks (id_task, name_task, description_task, proj_id, createdAt_task, updatedAt_task, deletedAt_task)
-                VALUES (@Id, @Name, @Description, @ProjectId, @CreatedAt, @UpdatedAt, @DeletedAt)";
-
-            await _dbConnection.ExecuteAsync(query, entity);
+                VALUES (@Id, @Name, @Description, @ProjectId, @CreatedAt, @UpdatedAt, @DeletedAt)
+                RETURNING id_task";
+            entity.Id = await _dbConnection.ExecuteScalarAsync<Guid>(query, entity);
         }
 
         public async Task DeleteAsync(Guid id)

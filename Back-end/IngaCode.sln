@@ -1,5 +1,4 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -12,8 +11,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IngaCode.Domain", "src\IngaCode.Domain\IngaCode.Domain.csproj", "{1A6B6CBA-46C3-4001-96F3-41522A679993}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IngaCode.Infrastructure", "src\IngaCode.Infrastructure\IngaCode.Infrastructure.csproj", "{E15A3930-43E3-4E13-96B6-6850196BF8CE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IngaCode.Tests", "src\IngaCode.Tests\IngaCode.Tests.csproj", "{65A707F1-3054-4E36-B6F9-51AC2449D653}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,16 +37,11 @@ Global
 		{E15A3930-43E3-4E13-96B6-6850196BF8CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E15A3930-43E3-4E13-96B6-6850196BF8CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E15A3930-43E3-4E13-96B6-6850196BF8CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65A707F1-3054-4E36-B6F9-51AC2449D653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65A707F1-3054-4E36-B6F9-51AC2449D653}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65A707F1-3054-4E36-B6F9-51AC2449D653}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65A707F1-3054-4E36-B6F9-51AC2449D653}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{39D1139E-1EF1-4C89-B5E8-0C915895FC49} = {0BCE1D23-CB46-440A-BF05-F0B2DF089216}
 		{DE8DEA5C-8CDB-4110-8E21-564BCE24DC73} = {0BCE1D23-CB46-440A-BF05-F0B2DF089216}
 		{1A6B6CBA-46C3-4001-96F3-41522A679993} = {0BCE1D23-CB46-440A-BF05-F0B2DF089216}
 		{E15A3930-43E3-4E13-96B6-6850196BF8CE} = {0BCE1D23-CB46-440A-BF05-F0B2DF089216}
-		{65A707F1-3054-4E36-B6F9-51AC2449D653} = {0BCE1D23-CB46-440A-BF05-F0B2DF089216}
 	EndGlobalSection
 EndGlobal

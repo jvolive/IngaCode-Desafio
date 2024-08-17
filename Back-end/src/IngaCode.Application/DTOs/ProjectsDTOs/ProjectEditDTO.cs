@@ -2,5 +2,5 @@ namespace IngaCode.Application.DTOs.ProjectsDTOs;
 
 public class ProjectEditDto
 {
-    public string Name { get; set; }
+    public required string Name { get; set; }
 }

@@ -2,7 +2,6 @@ using IngaCode.Application.DTOs;
 using IngaCode.Domain.Entities;
 using IngaCode.Application.DTOs.TaskEntity;
 using IngaCode.Application.DTOs.ProjectsDTOs;
-using IngaCode.Application.DTOs.TimeTrackerDTOs;
 using AutoMapper;
 
 namespace IngaCode.Application.Configuration;
@@ -12,8 +11,9 @@ public class AutoMappingProfile : Profile
     public AutoMappingProfile()
     {
 
-        CreateMap<TaskEntityEditDto, TaskEntity>()
-            .ForMember(dest => dest.TimeTrackers, opt => opt.MapFrom(src => src.TimeTrackers));
+        CreateMap<TaskEntity, TaskEntityDto>()
+            .ReverseMap();
+        CreateMap<TaskEntityEditDto, TaskEntity>();
 
         CreateMap<Project, ProjectDto>()
             .ReverseMap();

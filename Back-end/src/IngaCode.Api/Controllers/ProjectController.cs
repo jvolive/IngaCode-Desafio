@@ -27,14 +27,14 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllProjects()
+    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll()
     {
         var projects = await _projectService.GetAllProjectsAsync();
         return Ok(projects);
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateProject([FromBody] ProjectEditDto projectDto)
+    public async Task<IActionResult> Create([FromBody] ProjectEditDto projectDto)
     {
         if (!ModelState.IsValid)
         {

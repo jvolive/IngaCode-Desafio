@@ -1,8 +1,8 @@
 using IngaCode.Application.Interfaces;
 using IngaCode.Application.DTOs;
-using AutoMapper;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
+using AutoMapper;
 
 namespace IngaCode.Application.Services;
 
@@ -20,27 +20,32 @@ public class ProjectService : IProjectService
     public async Task<IEnumerable<ProjectDto>> GetAllAsync()
     {
         var projects = await _projectRepository.GetAllAsync();
-        return _mapper.Map<IEnumerable<ProjectDto>>(projects);
+        var projectsDto = _mapper.Map<IEnumerable<ProjectDto>>(projects);
+        return projectsDto;
     }
 
     public async Task<ProjectDto> GetByNameAsync(string name)
     {
         var project = await _projectRepository.GetByNameAsync(name);
-        return _mapper.Map<ProjectDto>(project);
+        var projectDto = _mapper.Map<ProjectDto>(project);
+        return projectDto;
     }
 
-    public async Task AddAsync(Project entity)
+    public async Task AddAsync(ProjectDto projectDto)
     {
-        await _projectRepository.AddAsync(entity);
+        var project = _mapper.Map<Project>(projectDto);
+        await _projectRepository.AddAsync(project);
     }
 
-    public async Task UpdateAsync(Project entity)
+    public async Task UpdateAsync(ProjectDto projectDto)
     {
-        await _projectRepository.UpdateAsync(entity);
+        var project = _mapper.Map<Project>(projectDto);
+        await _projectRepository.UpdateAsync(project);
     }
 
     public async Task DeleteAsync(string name)
     {
         await _projectRepository.DeleteAsync(name);
     }
+
 }

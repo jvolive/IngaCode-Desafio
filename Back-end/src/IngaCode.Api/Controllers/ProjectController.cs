@@ -28,14 +28,29 @@ public class ProjectsController : ControllerBase
         var project = await _projectService.GetByNameAsync(name);
         if (project == null)
         {
-            return NotFound();
+            return NotFound("Project not found");
         }
         return Ok(project);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> AddProject(ProjectDto projectDto)
+    {
+        await _projectService.AddAsync(projectDto);
+        return Ok("Project saved successfully");
+    }
 
+    [HttpPut]
+    public async Task<IActionResult> UpdateProject(ProjectDto projectDto)
+    {
+        await _projectService.UpdateAsync(projectDto);
+        return Ok("Project updated successfully");
+    }
 
-
-
+    [HttpDelete("{name}")]
+    public async Task<IActionResult> DeleteProject(string name)
+    {
+        await _projectService.DeleteAsync(name);
+        return Ok("Project deleted successfully");
+    }
 }
-

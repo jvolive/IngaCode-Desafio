@@ -1,9 +1,11 @@
 using IngaCode.Application.Interfaces;
 using IngaCode.Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IngaCode.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class ProjectsController : ControllerBase
@@ -40,12 +42,13 @@ public class ProjectsController : ControllerBase
         return Ok("Project saved successfully");
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateProject(ProjectDto projectDto)
+    [HttpPut("{oldName}")]
+    public async Task<IActionResult> UpdateProject(string oldName, [FromBody] ProjectDto projectDto)
     {
-        await _projectService.UpdateAsync(projectDto);
+        await _projectService.UpdateAsync(projectDto, oldName);
         return Ok("Project updated successfully");
     }
+
 
     [HttpDelete("{name}")]
     public async Task<IActionResult> DeleteProject(string name)

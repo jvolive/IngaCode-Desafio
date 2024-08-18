@@ -37,15 +37,13 @@ public class ProjectService : IProjectService
         await _projectRepository.AddAsync(project);
     }
 
-    public async Task UpdateAsync(ProjectDto projectDto)
+    public async Task UpdateAsync(ProjectDto projectDto, string oldName)
     {
         var project = _mapper.Map<Project>(projectDto);
-        await _projectRepository.UpdateAsync(project);
+        await _projectRepository.UpdateByNameAsync(project, oldName);
     }
-
     public async Task DeleteAsync(string name)
     {
         await _projectRepository.DeleteAsync(name);
     }
-
 }

@@ -7,4 +7,5 @@ public interface ITaskEntityService : IService<TaskEntity>
 {
     Task<IEnumerable<TaskEntityDto>> GetAllAsync();
     Task<TaskEntityDto> GetByNameAsync(string name);
+    Task UpdateAsync(TaskEntity entity);
 }

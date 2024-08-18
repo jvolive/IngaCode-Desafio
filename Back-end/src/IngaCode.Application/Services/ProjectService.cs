@@ -42,6 +42,7 @@ public class ProjectService : IProjectService
         var project = _mapper.Map<Project>(projectDto);
         await _projectRepository.UpdateByNameAsync(project, oldName);
     }
+
     public async Task DeleteAsync(string name)
     {
         await _projectRepository.DeleteAsync(name);

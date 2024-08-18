@@ -1,11 +1,9 @@
 using IngaCode.Application.Interfaces;
 using IngaCode.Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace IngaCode.API.Controllers;
 
-[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class ProjectsController : ControllerBase

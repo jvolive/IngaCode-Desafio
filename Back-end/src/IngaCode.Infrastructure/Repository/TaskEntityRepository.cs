@@ -16,52 +16,70 @@ public class TaskEntityRepository : ITaskEntityRepository
 
     public async Task<IEnumerable<TaskEntity>> GetAllAsync()
     {
-        var query = "SELECT * FROM tasks";
-        return await _dbConnection.QueryAsync<TaskEntity>(query);
+        var sql = @"SELECT 
+            id_task AS Id, 
+            name_task AS Name,
+            description_task AS Description ,
+            proj_id AS ProjectId,
+            createdAt_task AS CreatedAt, 
+            updatedAt_task AS UpdatedAt, 
+            deletedAt_task AS DeletedAt 
+        FROM tasks";
+        return await _dbConnection.QueryAsync<TaskEntity>(sql);
     }
 
     public async Task<TaskEntity> GetByNameAsync(string name)
     {
-        var query = "SELECT * FROM tasks WHERE name_task = @Name";
-        return await _dbConnection.QuerySingleOrDefaultAsync<TaskEntity>(query, new { Name = name });
+        var sql = @"SELECT 
+            id_task AS Id, 
+            name_task AS Name,
+            description_task AS Description ,
+            proj_id AS ProjectId,
+            createdAt_task AS CreatedAt, 
+            updatedAt_task AS UpdatedAt, 
+            deletedAt_task AS DeletedAt 
+        FROM tasks
+         WHERE name_task = @Name";
+        return await _dbConnection.QuerySingleOrDefaultAsync<TaskEntity>(sql, new { Name = name });
     }
 
     public async Task AddAsync(TaskEntity entity)
     {
-        var query = @"
+        var sql = @"
                 INSERT INTO tasks (name_task, description_task, proj_id)
                 VALUES (@Name, @Description, @ProjectId)
                 RETURNING id_task";
-        entity.Id = await _dbConnection.ExecuteScalarAsync<Guid>(query, new
-        {
-            Name = entity.Name,
-            Description = entity.Description,
-            ProjectId = entity.ProjectId
-        });
+        entity.Id = await _dbConnection.ExecuteScalarAsync<Guid>(sql, entity);
     }
 
-    public async Task UpdateAsync(TaskEntity entity)
+    public async Task UpdateByNameAsync(TaskEntity entity, string oldName)
     {
-        var query = @"
-        UPDATE tasks
-        SET name_task = @Name, 
-            description_task = @Description, 
-            proj_id = @ProjectId,
-            updatedAt_task = @UpdatedAt, 
-        WHERE name_task = @Name";
+        var sql = @"
+                UPDATE tasks
+                SET name_task = @NewName,
+                    description_task = @Description,
+                    proj_id = @ProjectId,
+                    updatedAt_task = @UpdatedAt
+                WHERE name_task = @OldName";
 
-        await _dbConnection.ExecuteAsync(query, new
+        var parameters = new DynamicParameters();
+        parameters.Add("NewName", entity.Name);
+        parameters.Add("OldName", oldName);
+        parameters.Add("Description", entity.Description);
+        parameters.Add("ProjectId", entity.ProjectId);
+        parameters.Add("UpdatedAt", entity.UpdatedAt ?? DateTime.Now);
+
+        var affectedRows = await _dbConnection.ExecuteAsync(sql, parameters);
+
+        if (affectedRows == 0)
         {
-            Name = entity.Name,
-            Description = entity.Description,
-            ProjectId = entity.ProjectId,
-            UpdatedAt = entity.UpdatedAt,
-        });
+            throw new Exception("No rows were updated. Check if the old name exists.");
+        }
     }
 
     public async Task DeleteAsync(string name)
     {
-        var query = "DELETE FROM tasks WHERE id_task = @Name";
-        await _dbConnection.ExecuteAsync(query, new { Name = name });
+        var sql = @"DELETE FROM tasks WHERE name_task = @Name";
+        await _dbConnection.ExecuteAsync(sql, new { Name = name });
     }
 }

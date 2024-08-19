@@ -22,9 +22,10 @@ public class TaskEntityRepository : ITaskEntityRepository
                 name_task AS Name,
                 description_task AS Description ,
                 proj_id AS ProjectId,
+                collab_name AS CollaboratorName,
                 createdAt_task AS CreatedAt, 
                 updatedAt_task AS UpdatedAt, 
-                deletedAt_task AS DeletedAt 
+                deletedAt_task AS DeletedAt
             FROM tasks
             WHERE deletedAt_task IS NULL";
         return await _dbConnection.QueryAsync<TaskEntity>(sql);
@@ -38,9 +39,9 @@ public class TaskEntityRepository : ITaskEntityRepository
                 name_task AS Name,
                 description_task AS Description ,
                 proj_id AS ProjectId,
+                collab_name AS CollaboratorName,
                 createdAt_task AS CreatedAt, 
-                updatedAt_task AS UpdatedAt, 
-                deletedAt_task AS DeletedAt 
+                deletedAt_task AS DeletedAt
             FROM tasks
             WHERE name_task = @Name
             AND deletedAt_task IS NULL";
@@ -50,8 +51,8 @@ public class TaskEntityRepository : ITaskEntityRepository
     public async Task AddAsync(TaskEntity entity)
     {
         var sql = @"
-                INSERT INTO tasks (name_task, description_task, proj_id)
-                VALUES (@Name, @Description, @ProjectId)
+                INSERT INTO tasks (name_task, description_task, proj_id, collab_name)
+                VALUES (@Name, @Description, @ProjectId, @CollaboratorName)
                 RETURNING id_task";
         entity.Id = await _dbConnection.ExecuteScalarAsync<Guid>(sql, entity);
     }
@@ -63,6 +64,7 @@ public class TaskEntityRepository : ITaskEntityRepository
                 SET name_task = @NewName,
                     description_task = @Description,
                     proj_id = @ProjectId,
+                    collab_name =@CollaboratorName,
                     updatedAt_task = @UpdatedAt
                 WHERE name_task = @OldName";
 
@@ -71,6 +73,7 @@ public class TaskEntityRepository : ITaskEntityRepository
         parameters.Add("OldName", oldName);
         parameters.Add("Description", entity.Description);
         parameters.Add("ProjectId", entity.ProjectId);
+        parameters.Add("CollaboratorName", entity.CollaboratorName);
         parameters.Add("UpdatedAt", entity.UpdatedAt ?? DateTime.Now);
 
         var affectedRows = await _dbConnection.ExecuteAsync(sql, parameters);

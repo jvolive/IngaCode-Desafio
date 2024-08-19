@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { EditProjectModalProps } from "../../../types/projects/application";
+import { EditProjectModal } from "../../../types/projects/application";
 
-export const EditModalProject: React.FC<EditProjectModalProps> = ({
+export const EditModalProject: React.FC<EditProjectModal> = ({
   show,
   onHide,
   project,

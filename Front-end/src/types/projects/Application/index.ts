@@ -1,19 +1,19 @@
 import { ReadProject, UpdateProjectRequest } from "../service";
 
-export interface CreateProjectModalProps {
+export interface CreateProjectModal {
   show: boolean;
   onHide: () => void;
   onCreate: (name: string) => void;
 }
 
-export interface EditProjectModalProps {
+export interface EditProjectModal {
   show: boolean;
   onHide: () => void;
   project: ReadProject | null;
   onSave: (updatedProject: UpdateProjectRequest) => void;
 }
 
-export interface DeleteProjectModalProps {
+export interface DeleteProjectModal {
   show: boolean;
   onHide: () => void;
   project: ReadProject | null;

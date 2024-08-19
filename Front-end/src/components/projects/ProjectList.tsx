@@ -65,7 +65,7 @@ export const ProjectList: React.FC = () => {
                   setSelectedProject(project);
                   setShowEditModal(true);
                 }}
-                className="ms-2"
+                className="ms-3"
               >
                 Edit
               </Button>
@@ -75,13 +75,17 @@ export const ProjectList: React.FC = () => {
                   setSelectedProject(project);
                   setShowDeleteModal(true);
                 }}
-                className="ms-2"
+                className="ms-3"
               >
                 Delete
               </Button>
             </ListGroup.Item>
           ))}
-          <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+          <Button
+            variant="primary"
+            onClick={() => setShowCreateModal(true)}
+            className="mt-3"
+          >
             Create Project
           </Button>
         </ListGroup>

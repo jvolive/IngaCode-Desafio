@@ -11,12 +11,14 @@ export const EditModalTask: React.FC<EditTaskModalProps> = ({
   const [taskName, setTaskName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [projectId, setProjectId] = useState<string>("");
+  const [collaboratorName, setCollaboratorName] = useState<string>("");
 
   useEffect(() => {
     if (task) {
       setTaskName(task.name);
       setDescription(task.description || "");
       setProjectId(task.projectId);
+      setCollaboratorName(task.collaboratorName || "");
     }
   }, [task]);
 
@@ -27,6 +29,7 @@ export const EditModalTask: React.FC<EditTaskModalProps> = ({
         name: taskName,
         description,
         projectId,
+        collaboratorName,
       });
     }
   };
@@ -68,6 +71,15 @@ export const EditModalTask: React.FC<EditTaskModalProps> = ({
               placeholder="Enter project ID"
               value={projectId}
               onChange={(e) => setProjectId(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formCollaboratorName">
+            <Form.Label>Collaborator Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter collaborator name"
+              value={collaboratorName}
+              onChange={(e) => setCollaboratorName(e.target.value)}
             />
           </Form.Group>
         </Form>

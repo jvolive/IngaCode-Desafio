@@ -23,14 +23,4 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      console.error("Unauthorized - token might be expired or invalid.");
-    }
-    return Promise.reject(error);
-  }
-);
+export default axiosInstance;

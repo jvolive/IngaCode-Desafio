@@ -10,16 +10,19 @@ export const CreateModalTask: React.FC<CreateTaskModalProps> = ({
   const [taskName, setTaskName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [projectId, setProjectId] = useState<string>("");
+  const [collaboratorName, setCollaboratorName] = useState<string>("");
 
   const handleCreate = () => {
     onCreate({
       name: taskName,
       description,
       projectId,
+      collaboratorName,
     });
     setTaskName("");
     setDescription("");
     setProjectId("");
+    setCollaboratorName("");
   };
 
   return (
@@ -59,6 +62,15 @@ export const CreateModalTask: React.FC<CreateTaskModalProps> = ({
               placeholder="Enter project ID"
               value={projectId}
               onChange={(e) => setProjectId(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formCollaboratorName">
+            <Form.Label>Collaborator Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter collaborator name"
+              value={collaboratorName}
+              onChange={(e) => setCollaboratorName(e.target.value)}
             />
           </Form.Group>
         </Form>

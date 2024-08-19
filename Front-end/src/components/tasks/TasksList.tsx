@@ -1,5 +1,5 @@
 import React from "react";
-import { ListGroup, Button, Alert } from "react-bootstrap";
+import { ListGroup, Button } from "react-bootstrap";
 import { useTasks } from "../../hooks/useTasks";
 import {
   CreateTaskRequest,
@@ -64,7 +64,7 @@ export const TaskList: React.FC = () => {
                     setSelectedTask(task);
                     setShowEditModal(true);
                   }}
-                  className="ms-2"
+                  className="ms-3"
                 >
                   Edit
                 </Button>
@@ -74,7 +74,7 @@ export const TaskList: React.FC = () => {
                     setSelectedTask(task);
                     setShowDeleteModal(true);
                   }}
-                  className="ms-2"
+                  className="ms-3"
                 >
                   Delete
                 </Button>
@@ -84,6 +84,7 @@ export const TaskList: React.FC = () => {
               variant="primary"
               onClick={() => setShowCreateModal(true)}
               disabled={loading}
+              className="mt-3"
             >
               Create Task
             </Button>

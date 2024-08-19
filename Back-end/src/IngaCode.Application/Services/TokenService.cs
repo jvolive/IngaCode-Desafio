@@ -38,7 +38,7 @@ public class TokenService : ITokenService
                 new Claim(JwtRegisteredClaimNames.Sub, loginDto.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             },
-            expires: DateTime.UtcNow.AddHours(2),
+            expires: DateTime.UtcNow.AddMinutes(5),
             signingCredentials: signinCredentials
         );
 

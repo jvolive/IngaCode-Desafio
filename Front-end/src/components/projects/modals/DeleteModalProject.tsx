@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import { DeleteProjectModalProps } from "../../../types/projects/application";
+import { DeleteProjectModal } from "../../../types/projects/application";
 
-export const DeleteModalProject: React.FC<DeleteProjectModalProps> = ({
+export const DeleteModalProject: React.FC<DeleteProjectModal> = ({
   show,
   onHide,
   project,

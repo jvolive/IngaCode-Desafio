@@ -28,7 +28,8 @@ public class TimeTrackerRepository : ITimeTrackerRepository
                 updatedAt_time_tracker AS UpdatedAt,
                 deletedAt_time_tracker AS DeletedAt
             FROM time_tracker 
-            WHERE task_id = @TaskId AND deletedAt_time_tracker IS NULL";
+            WHERE task_id = @TaskId 
+            AND deletedAt_time_tracker IS NULL";
         return await _dbConnection.QueryAsync<TimeTracker>(sql, new { TaskId = taskId });
     }
 
@@ -46,7 +47,8 @@ public class TimeTrackerRepository : ITimeTrackerRepository
                 updatedAt_time_tracker AS UpdatedAt,
                 deletedAt_time_tracker AS DeletedAt
             FROM time_tracker
-            WHERE id_time_tracker = @Id AND deletedAt_time_tracker IS NULL";
+            WHERE id_time_tracker = @Id 
+            AND deletedAt_time_tracker IS NULL";
         return await _dbConnection.QuerySingleOrDefaultAsync<TimeTracker>(sql, new { Id = id });
     }
 
@@ -184,4 +186,43 @@ public class TimeTrackerRepository : ITimeTrackerRepository
 
         await _dbConnection.ExecuteAsync(sql, new { Id = id, DeletedAt = DateTime.UtcNow });
     }
+
+    public async Task StartTimeTrackerAsync(Guid id, Guid taskId, DateTime startDateTime)
+    {
+        var sql = @"
+            UPDATE time_tracker
+            SET start_date_time_tracker = @StartDateTime, 
+                updatedAt_time_tracker = @UpdatedAt
+            WHERE task_id = @TaskId 
+            AND id_time_tracker = @Id
+            AND deletedAt_time_tracker IS NULL";
+
+        var parameters = new DynamicParameters();
+        parameters.Add("TaskId", taskId);
+        parameters.Add("StartDateTime", startDateTime);
+        parameters.Add("UpdatedAt", DateTime.Now);
+        parameters.Add("Id", id);
+
+        await _dbConnection.ExecuteAsync(sql, parameters);
+    }
+
+    public async Task StopTimeTrackerAsync(Guid id, Guid taskId, DateTime endDateTime)
+    {
+        var sql = @"
+            UPDATE time_tracker
+            SET end_date_time_tracker = @EndDateTime, 
+                updatedAt_time_tracker = @UpdatedAt
+            WHERE task_id = @TaskId
+            AND id_time_tracker = @Id
+            AND deletedAt_time_tracker IS NULL";
+
+        var parameters = new DynamicParameters();
+        parameters.Add("TaskId", taskId);
+        parameters.Add("EndDateTime", endDateTime);
+        parameters.Add("UpdatedAt", DateTime.Now);
+        parameters.Add("Id", id);
+
+        await _dbConnection.ExecuteAsync(sql, parameters);
+    }
+
 }

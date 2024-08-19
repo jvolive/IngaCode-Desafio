@@ -61,6 +61,15 @@ builder.Services.AddScoped<IDbConnection>(sp =>
     return new NpgsqlConnection(connectionString);
 });
 
+// Configuração CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
+
 // Autenticação JWT
 builder.Services.AddAuthentication(x =>
 {
@@ -99,6 +108,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();

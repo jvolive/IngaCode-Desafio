@@ -6,5 +6,5 @@ interface AppListsProps {
 }
 
 export const AppLists: React.FC<AppListsProps> = ({ children }) => {
-  return <ListGroup as="ul">{children}</ListGroup>;
+  return <ListGroup>{children}</ListGroup>;
 };

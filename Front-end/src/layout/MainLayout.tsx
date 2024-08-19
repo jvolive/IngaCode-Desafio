@@ -1,7 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { AppHeader } from "../common";
-import { AppFooter } from "../common/footer/AppFooter";
 import { ReactNode } from "react";
+import { AppHeader, AppFooter } from "./common";
 
 interface MainLayoutProps {
   children: ReactNode;

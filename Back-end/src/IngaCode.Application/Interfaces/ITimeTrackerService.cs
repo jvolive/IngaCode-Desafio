@@ -8,5 +8,7 @@ public interface ITimeTrackerService
     Task AddAsync(TimeTrackerDto timeTrackerDto);
     Task UpdateAsync(TimeTrackerDto timeTrackerDto, Guid id);
     Task DeleteAsync(Guid id);
+    Task StartTimeTrackerAsync(Guid id, Guid taskId, DateTime startDateTime);
+    Task StopTimeTrackerAsync(Guid id, Guid taskId, DateTime endDateTime);
 }
 

@@ -9,4 +9,6 @@ public interface ITimeTrackerRepository
     Task AddAsync(TimeTracker entity);
     Task UpdateAsync(TimeTracker entity, Guid id);
     Task DeleteAsync(Guid id);
+    Task StartTimeTrackerAsync(Guid id, Guid taskID, DateTime startDateTime);
+    Task StopTimeTrackerAsync(Guid id, Guid taskID, DateTime endDateTime);
 }

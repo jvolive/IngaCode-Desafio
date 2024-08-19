@@ -45,4 +45,15 @@ public class TimeTrackerService : ITimeTrackerService
     {
         await _timeTrackerRepository.DeleteAsync(id);
     }
+
+    public async Task StartTimeTrackerAsync(Guid id, Guid taskId, DateTime startDateTime)
+    {
+        await _timeTrackerRepository.StartTimeTrackerAsync(id, taskId, startDateTime);
+    }
+
+    public async Task StopTimeTrackerAsync(Guid id, Guid taskId, DateTime endDateTime)
+    {
+        await _timeTrackerRepository.StopTimeTrackerAsync(id, taskId, endDateTime);
+    }
+
 }

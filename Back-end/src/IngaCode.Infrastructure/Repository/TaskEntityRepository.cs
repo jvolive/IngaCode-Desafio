@@ -16,30 +16,34 @@ public class TaskEntityRepository : ITaskEntityRepository
 
     public async Task<IEnumerable<TaskEntity>> GetAllAsync()
     {
-        var sql = @"SELECT 
-            id_task AS Id, 
-            name_task AS Name,
-            description_task AS Description ,
-            proj_id AS ProjectId,
-            createdAt_task AS CreatedAt, 
-            updatedAt_task AS UpdatedAt, 
-            deletedAt_task AS DeletedAt 
-        FROM tasks";
+        var sql = @"
+            SELECT 
+                id_task AS Id, 
+                name_task AS Name,
+                description_task AS Description ,
+                proj_id AS ProjectId,
+                createdAt_task AS CreatedAt, 
+                updatedAt_task AS UpdatedAt, 
+                deletedAt_task AS DeletedAt 
+            FROM tasks
+            WHERE deletedAt_task IS NULL";
         return await _dbConnection.QueryAsync<TaskEntity>(sql);
     }
 
     public async Task<TaskEntity> GetByNameAsync(string name)
     {
-        var sql = @"SELECT 
-            id_task AS Id, 
-            name_task AS Name,
-            description_task AS Description ,
-            proj_id AS ProjectId,
-            createdAt_task AS CreatedAt, 
-            updatedAt_task AS UpdatedAt, 
-            deletedAt_task AS DeletedAt 
-        FROM tasks
-         WHERE name_task = @Name";
+        var sql = @"
+            SELECT 
+                id_task AS Id, 
+                name_task AS Name,
+                description_task AS Description ,
+                proj_id AS ProjectId,
+                createdAt_task AS CreatedAt, 
+                updatedAt_task AS UpdatedAt, 
+                deletedAt_task AS DeletedAt 
+            FROM tasks
+            WHERE name_task = @Name
+            AND deletedAt_task IS NULL";
         return await _dbConnection.QuerySingleOrDefaultAsync<TaskEntity>(sql, new { Name = name });
     }
 
@@ -79,7 +83,15 @@ public class TaskEntityRepository : ITaskEntityRepository
 
     public async Task DeleteAsync(string name)
     {
-        var sql = @"DELETE FROM tasks WHERE name_task = @Name";
-        await _dbConnection.ExecuteAsync(sql, new { Name = name });
+        var sql = @"
+            UPDATE tasks
+            SET deletedAt_task = @DeletedAt
+            WHERE name_task = @Name";
+
+        var parameters = new DynamicParameters();
+        parameters.Add("Name", name);
+        parameters.Add("DeletedAt", DateTime.UtcNow);
+
+        await _dbConnection.ExecuteAsync(sql, parameters);
     }
 }

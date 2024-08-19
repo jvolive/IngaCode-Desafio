@@ -25,10 +25,4 @@ public class CollaboratorRepository : ICollaboratorRepository
         var query = "SELECT * FROM collaborators WHERE user_id = @UserId";
         return await _dbConnection.QuerySingleOrDefaultAsync<Collaborator>(query, new { UserId = userId });
     }
-
-    public async Task<IEnumerable<Collaborator>> GetAllAsync()
-    {
-        var query = "SELECT * FROM collaborators";
-        return await _dbConnection.QueryAsync<Collaborator>(query);
-    }
 }

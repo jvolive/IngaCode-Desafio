@@ -1,5 +1,4 @@
 using IngaCode.Application.DTOs;
-using IngaCode.Domain.Entities;
 
 namespace IngaCode.Application.Interfaces;
 

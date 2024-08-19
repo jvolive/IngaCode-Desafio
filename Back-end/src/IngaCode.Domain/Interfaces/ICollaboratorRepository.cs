@@ -6,5 +6,4 @@ public interface ICollaboratorRepository
 {
     Task<Collaborator> GetByNameAsync(string name);
     Task<Collaborator> GetByUserIdAsync(Guid UserId);
-    Task<IEnumerable<Collaborator>> GetAllAsync();
 }

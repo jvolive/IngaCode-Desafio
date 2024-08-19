@@ -54,7 +54,7 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
-// DB
+// Configuração do Db
 builder.Services.AddScoped<IDbConnection>(sp =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -89,7 +89,7 @@ builder.Services.AddScoped<ITimeTrackerRepository, TimeTrackerRepository>();
 
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskEntityService, TaskEntityService>();
-
+builder.Services.AddScoped<ITimeTrackerService, TimeTrackerService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();

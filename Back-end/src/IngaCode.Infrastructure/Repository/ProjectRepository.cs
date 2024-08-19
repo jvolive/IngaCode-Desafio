@@ -22,7 +22,8 @@ public class ProjectRepository : IProjectRepository
                 createdAt_proj AS CreatedAt, 
                 updatedAt_proj AS UpdatedAt, 
                 deletedAt_proj AS DeletedAt 
-            FROM projects";
+            FROM projects
+            WHERE deletedAt_proj IS NULL";
         return (await _dbConnection.QueryAsync<Project>(sql)).ToList();
     }
 
@@ -36,7 +37,8 @@ public class ProjectRepository : IProjectRepository
                 updatedAt_proj AS UpdatedAt, 
                 deletedAt_proj AS DeletedAt 
             FROM projects
-            WHERE name_proj = @Name";
+            WHERE name_proj = @Name
+            AND deletedAt_proj IS NULL";
         return await _dbConnection.QuerySingleOrDefaultAsync<Project>(sql, new { Name = name });
     }
 
@@ -52,10 +54,10 @@ public class ProjectRepository : IProjectRepository
     public async Task UpdateByNameAsync(Project entity, string oldName)
     {
         var sql = @"
-                UPDATE projects
-                SET name_proj = @NewName, 
-                    updatedAt_proj = @UpdatedAt
-                WHERE name_proj = @OldName";
+            UPDATE projects
+            SET name_proj = @NewName, 
+                updatedAt_proj = @UpdatedAt
+            WHERE name_proj = @OldName";
 
         var parameters = new DynamicParameters();
         parameters.Add("NewName", entity.Name);
@@ -72,7 +74,16 @@ public class ProjectRepository : IProjectRepository
 
     public async Task DeleteAsync(string name)
     {
-        var sql = @"DELETE FROM projects WHERE name_proj = @Name";
-        await _dbConnection.ExecuteAsync(sql, new { Name = name });
+        var sql = @"
+            UPDATE projects
+            SET deletedAt_proj = @DeletedAt
+            WHERE name_proj = @Name";
+
+        var parameters = new DynamicParameters();
+        parameters.Add("Name", name);
+        parameters.Add("DeletedAt", DateTime.UtcNow);
+
+        await _dbConnection.ExecuteAsync(sql, parameters);
     }
+
 }

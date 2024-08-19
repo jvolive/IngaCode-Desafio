@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
+using IngaCode.Application.DTOs;
 using IngaCode.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
-namespace IngaCode.API.Controllers;
+namespace IngaCode.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -14,31 +15,41 @@ public class TimeTrackerController : ControllerBase
         _timeTrackerService = timeTrackerService;
     }
 
-    [HttpPost("start")]
-    public async Task<IActionResult> StartTracking(Guid taskId, Guid? collabId, [FromQuery] string timeZoneId)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(Guid id)
     {
-        try
-        {
-            var result = await _timeTrackerService.StartTrackingTimeAsync(taskId, collabId, timeZoneId);
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { Message = ex.Message });
-        }
+        var timeTracker = await _timeTrackerService.GetByIdAsync(id);
+        if (timeTracker == null)
+            return NotFound();
+
+        return Ok(timeTracker);
     }
 
-    [HttpPost("stop")]
-    public async Task<IActionResult> StopTracking(Guid timeTrackerId)
+    [HttpGet("task/{taskId}")]
+    public async Task<IActionResult> GetByTaskId(Guid taskId)
     {
-        try
-        {
-            var success = await _timeTrackerService.StopTrackingTimeAsync(timeTrackerId);
-            return Ok(new { Success = success });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { Message = ex.Message });
-        }
+        var timeTrackers = await _timeTrackerService.GetByTaskIdAsync(taskId);
+        return Ok(timeTrackers);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddTimeTracker([FromBody] TimeTrackerDto timeTrackerDto)
+    {
+        await _timeTrackerService.AddAsync(timeTrackerDto);
+        return Ok("Time Tracker saved successfully");
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateTimeTracker(Guid id, [FromBody] TimeTrackerDto timeTrackerDto)
+    {
+        await _timeTrackerService.UpdateAsync(timeTrackerDto, id);
+        return Ok("Updated successfully");
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTimeTracker(Guid id)
+    {
+        await _timeTrackerService.DeleteAsync(id);
+        return Ok("Deleted successfully");
     }
 }

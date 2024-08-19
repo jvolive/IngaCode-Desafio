@@ -9,48 +9,40 @@ namespace IngaCode.Application.Services;
 public class TimeTrackerService : ITimeTrackerService
 {
     private readonly ITimeTrackerRepository _timeTrackerRepository;
-    private readonly ITaskEntityRepository _taskEntityRepository;
     private readonly IMapper _mapper;
 
-    public TimeTrackerService(ITimeTrackerRepository timeTrackerRepository, ITaskEntityRepository taskEntityRepository, IMapper mapper)
+    public TimeTrackerService(ITimeTrackerRepository timeTrackerRepository, IMapper mapper)
     {
         _timeTrackerRepository = timeTrackerRepository;
-        _taskEntityRepository = taskEntityRepository;
         _mapper = mapper;
     }
 
-    public async Task<TimeTrackerDto> StartTrackingTimeAsync(Guid taskId, Guid? collabId, string timeZoneId)
+    public async Task<IEnumerable<TimeTrackerDto>> GetByTaskIdAsync(Guid taskId)
     {
-        if (string.IsNullOrWhiteSpace(timeZoneId))
-            throw new ArgumentException("TimeZoneId cannot be null or empty", nameof(timeZoneId));
+        var timeTrackers = await _timeTrackerRepository.GetByTaskIdAsync(taskId);
+        return _mapper.Map<IEnumerable<TimeTrackerDto>>(timeTrackers);
+    }
 
-        var task = await _taskEntityRepository.GetByIdAsync(taskId);
-        if (task == null)
-            throw new Exception("Task not found");
-
-        var timeTracker = new TimeTracker
-        {
-            Id = Guid.NewGuid(),
-            StartDateTime = DateTime.UtcNow,
-            TaskId = taskId,
-            CollabId = collabId,
-            TimeZoneId = timeZoneId
-        };
-
-        await _timeTrackerRepository.AddAsync(timeTracker);
-
+    public async Task<TimeTrackerDto> GetByIdAsync(Guid id)
+    {
+        var timeTracker = await _timeTrackerRepository.GetByIdAsync(id);
         return _mapper.Map<TimeTrackerDto>(timeTracker);
     }
 
-    public async Task<bool> StopTrackingTimeAsync(Guid timeTrackerId)
+    public async Task AddAsync(TimeTrackerDto timeTrackerDto)
     {
-        var timeTracker = await _timeTrackerRepository.GetByIdAsync(timeTrackerId);
-        if (timeTracker == null)
-            throw new Exception("TimeTracker not found");
+        var timeTracker = _mapper.Map<TimeTracker>(timeTrackerDto);
+        await _timeTrackerRepository.AddAsync(timeTracker);
+    }
 
-        timeTracker.EndDateTime = DateTime.UtcNow;
-        await _timeTrackerRepository.UpdateAsync(timeTracker);
+    public async Task UpdateAsync(TimeTrackerDto timeTrackerDto, Guid id)
+    {
+        var timeTracker = _mapper.Map<TimeTracker>(timeTrackerDto);
+        await _timeTrackerRepository.UpdateAsync(timeTracker, id);
+    }
 
-        return true;
+    public async Task DeleteAsync(Guid id)
+    {
+        await _timeTrackerRepository.DeleteAsync(id);
     }
 }

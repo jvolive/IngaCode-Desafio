@@ -4,9 +4,9 @@ namespace IngaCode.Domain.Interfaces;
 
 public interface ITimeTrackerRepository
 {
-    Task AddAsync(TimeTracker entity);
-    Task<TimeTracker> GetByIdAsync(Guid id);
-    Task UpdateAsync(TimeTracker entity);
     Task<IEnumerable<TimeTracker>> GetByTaskIdAsync(Guid taskId);
+    Task<TimeTracker> GetByIdAsync(Guid id);
+    Task AddAsync(TimeTracker entity);
+    Task UpdateAsync(TimeTracker entity, Guid id);
     Task DeleteAsync(Guid id);
 }

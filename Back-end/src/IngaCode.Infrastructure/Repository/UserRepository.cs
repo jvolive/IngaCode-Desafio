@@ -15,7 +15,11 @@ public class UserRepository : IUserRepository
 
     public async Task<User> GetByUsernameAsync(string username)
     {
-        var query = "SELECT username_user, password_user FROM users WHERE username_user = @Username";
+        var query = @"
+        SELECT username_user, password_user 
+        FROM users 
+        WHERE username_user = @Username";
+
         return await _dbConnection.QuerySingleOrDefaultAsync<User>(query, new { Username = username });
     }
 

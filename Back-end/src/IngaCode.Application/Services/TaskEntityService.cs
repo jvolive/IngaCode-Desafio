@@ -1,5 +1,4 @@
 using IngaCode.Application.DTOs;
-using IngaCode.Application.DTOs.TaskEntity;
 using IngaCode.Application.Interfaces;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
@@ -9,111 +8,47 @@ namespace IngaCode.Application.Services;
 
 public class TaskEntityService : ITaskEntityService
 {
-    private readonly ITaskEntityRepository _taskRepository;
-    private readonly ITimeTrackerRepository _timeTrackerRepository;
+    private readonly ITaskEntityRepository _taskEntityRepository;
     private readonly IMapper _mapper;
 
     public TaskEntityService(
-        ITaskEntityRepository taskRepository,
+        ITaskEntityRepository taskEntityRepository,
         ITimeTrackerRepository timeTrackerRepository,
         IMapper mapper)
     {
-        _taskRepository = taskRepository;
-        _timeTrackerRepository = timeTrackerRepository;
+        _taskEntityRepository = taskEntityRepository;
+
         _mapper = mapper;
     }
 
-    public async Task<TaskEntityDto?> GetTaskEntityByIdAsync(Guid id)
+    public async Task<IEnumerable<TaskEntityDto>> GetAllAsync()
     {
-        var taskEntity = await _taskRepository.GetByIdAsync(id);
-        if (taskEntity == null) return null;
+        var tasks = await _taskEntityRepository.GetAllAsync();
+        var tasksDto = _mapper.Map<IEnumerable<TaskEntityDto>>(tasks);
+        return tasksDto;
+    }
 
-        var taskDto = _mapper.Map<TaskEntityDto>(taskEntity);
-
-        var timeTrackers = await _timeTrackerRepository.GetByTaskIdAsync(id);
-        taskDto.TimeTrackers = _mapper.Map<IEnumerable<TimeTrackerDto>>(timeTrackers);
-
+    public async Task<TaskEntityDto> GetByNameAsync(string name)
+    {
+        var task = await _taskEntityRepository.GetByNameAsync(name);
+        var taskDto = _mapper.Map<TaskEntityDto>(task);
         return taskDto;
     }
 
-    public async Task<IEnumerable<TaskEntityDto>> GetAllTaskEntityAsync()
+    public async Task AddAsync(TaskEntityDto taskEntityDto)
     {
-        var tasks = await _taskRepository.GetAllAsync();
-        var taskDtos = _mapper.Map<IEnumerable<TaskEntityDto>>(tasks);
-
-        foreach (var taskDto in taskDtos)
-        {
-            var timeTrackers = await _timeTrackerRepository.GetByTaskIdAsync(taskDto.Id);
-            taskDto.TimeTrackers = _mapper.Map<IEnumerable<TimeTrackerDto>>(timeTrackers);
-        }
-
-        return taskDtos;
+        var taskEntity = _mapper.Map<TaskEntity>(taskEntityDto);
+        await _taskEntityRepository.AddAsync(taskEntity);
     }
 
-    public async Task<TaskEntityDto> CreateTaskEntityAsync(TaskEntityEditDto dto)
+    public async Task UpdateAsync(TaskEntityDto taskEntityDto, string oldName)
     {
-        var taskEntity = _mapper.Map<TaskEntity>(dto);
-
-        await _taskRepository.AddAsync(taskEntity);
-
-        if (dto.TimeTrackers != null)
-        {
-            foreach (var trackerDto in dto.TimeTrackers)
-            {
-                var tracker = _mapper.Map<TimeTracker>(trackerDto);
-                tracker.TaskId = taskEntity.Id;
-                await _timeTrackerRepository.AddAsync(tracker);
-            }
-        }
-
-        var createdTask = await _taskRepository.GetByIdAsync(taskEntity.Id);
-        return _mapper.Map<TaskEntityDto>(createdTask);
+        var taskEntity = _mapper.Map<TaskEntity>(taskEntityDto);
+        await _taskEntityRepository.UpdateByNameAsync(taskEntity, oldName);
     }
 
-    public async Task<bool> UpdateTaskEntityAsync(Guid id, TaskEntityEditDto dto)
+    public async Task DeleteAsync(string name)
     {
-        var taskEntity = await _taskRepository.GetByIdAsync(id);
-        if (taskEntity == null) return false;
-
-        _mapper.Map(dto, taskEntity);
-
-        if (dto.TimeTrackers != null)
-        {
-            var existingTrackers = await _timeTrackerRepository.GetByTaskIdAsync(id);
-            foreach (var existingTracker in existingTrackers)
-            {
-                await _timeTrackerRepository.DeleteAsync(existingTracker.Id);
-            }
-
-            foreach (var trackerDto in dto.TimeTrackers)
-            {
-                var tracker = _mapper.Map<TimeTracker>(trackerDto);
-                tracker.TaskId = taskEntity.Id;
-                await _timeTrackerRepository.AddAsync(tracker);
-            }
-        }
-
-        await _taskRepository.UpdateAsync(taskEntity);
-
-        return true;
-    }
-
-    public async Task<bool> DeleteTaskEntityAsync(Guid id)
-    {
-        try
-        {
-            var timeTrackers = await _timeTrackerRepository.GetByTaskIdAsync(id);
-            foreach (var tracker in timeTrackers)
-            {
-                await _timeTrackerRepository.DeleteAsync(tracker.Id);
-            }
-
-            await _taskRepository.DeleteAsync(id);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        await _taskEntityRepository.DeleteAsync(name);
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using IngaCode.Application.Interfaces;
-using IngaCode.Application.DTOs.TaskEntity;
+using IngaCode.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IngaCode.WebApi.Controllers;
@@ -20,59 +20,40 @@ public class TaskEntityController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TaskEntityDto>>> GetAll()
     {
-        var tasks = await _taskEntityService.GetAllTaskEntityAsync();
+        var tasks = await _taskEntityService.GetAllAsync();
         return Ok(tasks);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<TaskEntityDto>> GetById(Guid id)
+    [HttpGet("{name}")]
+    public async Task<IActionResult> GetByName(string name)
     {
-        var task = await _taskEntityService.GetTaskEntityByIdAsync(id);
+        var task = await _taskEntityService.GetByNameAsync(name);
         if (task == null)
         {
-            return NotFound();
+            return NotFound("Task not Found");
         }
         return Ok(task);
     }
 
     [HttpPost]
-    public async Task<ActionResult<TaskEntityDto>> Create([FromBody] TaskEntityEditDto dto)
+    public async Task<IActionResult> AddTaskEntity(TaskEntityDto taskEntityDto)
     {
-        if (dto == null)
-        {
-            return BadRequest("Task data is null");
-        }
-
-        var task = await _taskEntityService.CreateTaskEntityAsync(dto);
-        return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
+        await _taskEntityService.AddAsync(taskEntityDto);
+        return Ok("Task saved successfully");
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] TaskEntityEditDto dto)
+    [HttpPut("{oldName}")]
+    public async Task<IActionResult> UpdateTaskEntity(string oldName, [FromBody] TaskEntityDto taskEntityDto)
     {
-        if (dto == null || id != id)
-        {
-            return BadRequest("Task data is invalid");
-        }
-
-        var result = await _taskEntityService.UpdateTaskEntityAsync(id, dto);
-        if (!result)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
+        await _taskEntityService.UpdateAsync(taskEntityDto, oldName);
+        return Ok("Task updated successfully");
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    [HttpDelete("{name}")]
+    public async Task<IActionResult> DeleteTaskEntity(string name)
     {
-        var result = await _taskEntityService.DeleteTaskEntityAsync(id);
-        if (!result)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
+        await _taskEntityService.DeleteAsync(name);
+        return Ok("Task deleted successfully");
     }
+
 }

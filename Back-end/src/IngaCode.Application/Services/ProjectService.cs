@@ -1,5 +1,5 @@
 using IngaCode.Application.Interfaces;
-using IngaCode.Application.DTOs.ProjectsDTOs;
+using IngaCode.Application.DTOs;
 using IngaCode.Domain.Entities;
 using IngaCode.Domain.Interfaces;
 using AutoMapper;
@@ -17,49 +17,34 @@ public class ProjectService : IProjectService
         _mapper = mapper;
     }
 
-    public async Task<ProjectDto> GetProjectByIdAsync(Guid id)
-    {
-        var project = await _projectRepository.GetByIdAsync(id);
-        return project == null ? null : _mapper.Map<ProjectDto>(project);
-    }
-
-    public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync()
+    public async Task<IEnumerable<ProjectDto>> GetAllAsync()
     {
         var projects = await _projectRepository.GetAllAsync();
-        return _mapper.Map<IEnumerable<ProjectDto>>(projects);
+        var projectsDto = _mapper.Map<IEnumerable<ProjectDto>>(projects);
+        return projectsDto;
     }
 
-    public async Task<ProjectDto> CreateProjectAsync(ProjectEditDto dto)
+    public async Task<ProjectDto> GetByNameAsync(string name)
     {
-        var projectEntity = _mapper.Map<Project>(dto);
-        await _projectRepository.AddAsync(projectEntity);
-        var createdProject = await _projectRepository.GetByIdAsync(projectEntity.Id);
-        return _mapper.Map<ProjectDto>(createdProject);
+        var project = await _projectRepository.GetByNameAsync(name);
+        var projectDto = _mapper.Map<ProjectDto>(project);
+        return projectDto;
     }
 
-    public async Task<bool> UpdateProjectAsync(Guid id, ProjectEditDto dto)
+    public async Task AddAsync(ProjectDto projectDto)
     {
-        var project = await _projectRepository.GetByIdAsync(id);
-        if (project != null)
-        {
-            _mapper.Map(dto, project);
-            await _projectRepository.UpdateAsync(project);
-            return true;
-        }
-        return false;
+        var project = _mapper.Map<Project>(projectDto);
+        await _projectRepository.AddAsync(project);
     }
 
-
-    public async Task<bool> DeleteProjectAsync(Guid id)
+    public async Task UpdateAsync(ProjectDto projectDto, string oldName)
     {
-        try
-        {
-            await _projectRepository.DeleteAsync(id);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        var project = _mapper.Map<Project>(projectDto);
+        await _projectRepository.UpdateByNameAsync(project, oldName);
+    }
+
+    public async Task DeleteAsync(string name)
+    {
+        await _projectRepository.DeleteAsync(name);
     }
 }

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export const AppHeader = () => {
   return (
-    <Navbar bg="dark" data-bs-theme="dark">
+    <Navbar bg="dark" variant="dark" className="py-3">
       <Container>
         <Navbar.Brand as={Link} to="/">
           IngaCode - Desafio

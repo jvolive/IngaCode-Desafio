@@ -24,6 +24,6 @@ public class AuthController : ControllerBase
             return Unauthorized();
         }
 
-        return Ok(token);
+        return new JsonResult(token);
     }
 }

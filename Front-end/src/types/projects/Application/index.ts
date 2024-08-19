@@ -1,4 +1,4 @@
-import { ReadProject, UpdateProjectRequest } from "../Services";
+import { ReadProject, UpdateProjectRequest } from "../service";
 
 export interface CreateProjectModalProps {
   show: boolean;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { CreateProjectModalProps } from "../../../types/projects/Application";
+import { CreateProjectModalProps } from "../../../types/projects/application";
 
-export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
+export const CreateModalProject: React.FC<CreateProjectModalProps> = ({
   show,
   onHide,
   onCreate,

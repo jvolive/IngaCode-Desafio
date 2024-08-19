@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace IngaCode.WebApi.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class TaskEntityController : ControllerBase

@@ -2,7 +2,7 @@ import {
   ReadProject,
   CreateProjectRequest,
   UpdateProjectRequest,
-} from "../types/projects/Services";
+} from "../types/projects/service";
 import { axiosInstance } from "./helper/axiosInstance";
 
 /**

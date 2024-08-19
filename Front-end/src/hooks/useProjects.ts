@@ -9,7 +9,7 @@ import {
   ReadProject,
   CreateProjectRequest,
   UpdateProjectRequest,
-} from "../types/projects/Services";
+} from "../types/projects/service";
 
 export const useProject = () => {
   const [projects, setProjects] = useState<ReadProject[]>([]);

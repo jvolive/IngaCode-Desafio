@@ -4,11 +4,11 @@ import { useProject } from "../../hooks/useProjects";
 import {
   ReadProject,
   UpdateProjectRequest,
-} from "../../types/projects/Services";
+} from "../../types/projects/service";
 import {
-  CreateProjectModal,
-  EditProjectModal,
-  DeleteProjectModal,
+  CreateModalProject,
+  DeleteModalProject,
+  EditModalProject,
 } from "./modals";
 
 export const ProjectList: React.FC = () => {
@@ -87,7 +87,7 @@ export const ProjectList: React.FC = () => {
         </ListGroup>
       )}
 
-      <CreateProjectModal
+      <CreateModalProject
         show={showCreateModal}
         onHide={() => setShowCreateModal(false)}
         onCreate={handleCreate}
@@ -95,14 +95,14 @@ export const ProjectList: React.FC = () => {
 
       {selectedProject && (
         <>
-          <EditProjectModal
+          <EditModalProject
             show={showEditModal}
             onHide={() => setShowEditModal(false)}
             project={selectedProject}
             onSave={handleUpdate}
           />
 
-          <DeleteProjectModal
+          <DeleteModalProject
             show={showDeleteModal}
             onHide={() => setShowDeleteModal(false)}
             project={selectedProject}

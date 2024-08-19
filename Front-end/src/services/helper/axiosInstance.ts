@@ -18,7 +18,6 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-
   (error) => {
     return Promise.reject(error);
   }
@@ -32,7 +31,6 @@ axiosInstance.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       console.error("Unauthorized - token might be expired or invalid.");
     }
-
     return Promise.reject(error);
   }
 );

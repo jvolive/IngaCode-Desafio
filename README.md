@@ -9,5 +9,3 @@
 - **Visualização do tempo gasto no mês corrente**
 - **Associação de colaborador a uma task**
 - **Apontamento de tempo gasto nas tasks**
-  - DataHora inicial
-  - DataHora final
